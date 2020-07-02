@@ -31,7 +31,7 @@ optimum::optimum(int n) {
 		dir::左,dir::下,dir::下,dir::下,dir::左,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,
 		dir::右,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::左,dir::左,dir::左,
 		dir::左,dir::下,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左 };
-	//《过五name::关》37步
+	//《过五关》37步
 
 	name Stage2_Name[59] = {
 		name::赵,name::黄,name::马,name::丁,name::丁,name::兵,name::兵,name::曹,name::勇,name::勇,name::关,name::丁,name::丁,name::兵,name::兵,name::曹,name::勇,name::勇,name::卒,name::卒,
@@ -55,7 +55,7 @@ optimum::optimum(int n) {
 		dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,dir::右,dir::下,dir::下,dir::下,dir::右,dir::上,dir::上,dir::左,dir::下,dir::左,dir::下,dir::下,dir::右,dir::右,
 		dir::右,dir::右,dir::上,dir::上,dir::左,dir::下,dir::下,dir::下,dir::下,dir::左,dir::上,dir::上,dir::右,dir::上,dir::上,dir::右,dir::右,dir::右,dir::右,dir::下,
 		dir::左,dir::左,dir::左,dir::左,dir::上,dir::上,dir::左,dir::右 };
-	//《dir::左dir::右布name::兵》62步
+	//《左右布兵》62步
 
 	name Stage4_Name[124] = {
 		name::卒,name::勇,name::黄,name::黄,name::曹,name::马,name::马,name::丁,name::丁,name::关,name::张,name::张,name::黄,name::卒,name::勇,name::丁,name::兵,name::关,name::赵,name::赵,
