@@ -1,32 +1,195 @@
-ï»¿#include <iostream>
-#include<conio.h>
-#include "bgm.h"
-#include "optimum.h"
-
+#include"Role.h"
+#include"Stage.h"
+#include"Sound.h"
+#include<iostream>
 int main()
 {
-    BGM bgm;
-    bgm.play_music();//å¼€å§‹æ’­æ”¾éŸ³ä¹
+	
 
-	switch (char key = getch())//æŒ‰é”®æŽ§åˆ¶
-	{
-    case "9"://è‡ªåŠ¨ç¤ºä¾‹æœ€ä¼˜è§£
-        int i = getch();
-        optimum instance(i);//é€‰æ‹©å±•ç¤ºå“ªä¸€å…³çš„æœ€ä¼˜è§£
-        instance.movebyoptimum()const;//æŒ‰ç…§æœ€ä¼˜è§£ä¸€æ­¥æ­¥è‡ªåŠ¨ç§»åŠ¨
-        break;
-    case "0":
-        bgm.close_music();//åœæ­¢æ’­æ”¾éŸ³ä¹
-        break;
-	case "+":
-        bgm.setvolume(+100);//æé«˜éŸ³é‡100
-		break;
-	case "-":
-        bgm.setvolume(-100);//é™ä½ŽéŸ³é‡100
-        break;
+
+	Role* CaoCao;
+	Role* ZhangFei;
+	Role* ZhaoYun;
+	Role* GuanYu;
+	Role* MaChao;
+	Role* HuangZhong;
+	Role* S1;
+	Role* S2;
+	Role* S3;
+	Role* S4;
+	Stage level;//levelÊÇËæ±ãÊµÀý»¯µÄ,ÓÃÀ´³õÊ¼»¯Âß¼­ÆåÅÌ
+
+	/*ÒÔÉÏÊÇÊµÀý»¯*/
+
+	int t;//´æ·Å¼üÅÌÊäÈëµÄ¹Ø¿¨
+	
+	switch (t)
+	{//delete·ÅÔÚ½áÊøÓÎÏ·º¯Êýend()ÖÐ
+		case 1:
+		{
+			
+			CaoCao=new Boss{ 1,1,0 };
+			GuanYu=new General_1{ 2, 1, 4 };
+			ZhaoYun = new General_1{ 3, 2, 3 };
+			MaChao = new General_1{ 4, 0, 2 };
+			HuangZhong = new General_1{ 5, 2, 2 };
+			ZhangFei = new General_1{ 6, 0, 3 };
+			S1=new Soldier{ 7 ,0,0 };
+			S2=new Soldier{ 8 ,3,0 };
+			S3=new Soldier{ 9 ,0,1 };
+			S4=new Soldier{ 10,3,1 };
+			level.Stage1();
+			break;
+		}
+	
+		case 2:
+		{
+			CaoCao= new Boss{ 1,1,0 };
+			GuanYu = new General_1{ 2, 2, 2 };
+			ZhaoYun = new General_1{ 3, 1, 4 };
+			MaChao = new General_2{ 4, 1, 2 };
+			HuangZhong = new General_2{ 5, 0, 2 };
+			ZhangFei = new General_1{ 6, 2, 3 };
+			S1 =new Soldier{ 7 ,0,0 };
+			S2 =new Soldier{ 8 ,3,0 };
+			S3 =new Soldier{ 9 ,0,1 };
+			S4 =new Soldier{ 10,3,1 };
+			level.Stage2();
+
+
+			break;
+		}
+
+		case 3:
+		{
+			CaoCao=new Boss{ 1,1,0 };
+			GuanYu = new General_1{ 2, 1, 4 };
+			ZhaoYun = new General_2{ 3, 3, 0 };
+			MaChao = new General_2{ 4, 2, 2 };
+			HuangZhong = new General_2{ 5, 1, 2 };
+			ZhangFei = new General_2{ 6, 0, 0 };
+			S1 =new Soldier{ 7 ,0,3 };
+			S2 =new Soldier{ 8 ,3,3 };
+			S3 =new Soldier{ 9 ,0,4 };
+			S4 =new Soldier{ 10,3,4 };
+			level.Stage3();
+
+
+			break;
+		}
+
+		case 4:
+		{
+			CaoCao= new Boss{ 1,1,0 };
+			GuanYu = new General_1{ 2, 0, 4 };
+			ZhaoYun = new General_2{ 3, 0, 0 };
+			MaChao = new General_2{ 4, 1, 2 };
+			HuangZhong = new General_2{ 5, 3, 0 };
+			ZhangFei = new General_1{ 6, 2, 4 };
+			S1 =new Soldier{ 7 ,0,2 };
+			S2 =new Soldier{ 8 ,3,2 };
+			S3 =new Soldier{ 9 ,0,3 };
+			S4 =new Soldier{ 10,3,3 };
+			level.Stage4();
+
+
+			break;
+		}
+		
+		case 5:
+		{
+			CaoCao=new Boss{ 1,1,0 };
+			GuanYu = new General_1{ 2, 1, 3 };
+			ZhaoYun = new General_2{ 3, 3, 0 };
+			MaChao = new General_1{ 4, 0, 2 };
+			HuangZhong = new General_1{ 5, 2, 2 };
+			ZhangFei = new General_2{ 6, 0, 3 };
+			S1 =new Soldier{ 7 ,0,0 };
+			S2 =new Soldier{ 8 ,3,0 };
+			S3 =new Soldier{ 9 ,0,1 };
+			S4 =new Soldier{ 10,3,1 };
+			level.Stage5();
+
+
+			break;
+		}
 	}
 
-    system("pause");//å†»ç»“å±å¹•
-    return 0;
-}
+	BGM music;
+	music.play_music();
 
+
+	/*³õÊ¼»¯Íê±Ï ¿ªÊ¼ÓÎÏ·*/
+	
+	CreateThread(NULL, NULL, CaoCao_start, NULL, NULL, NULL);
+	//²¥·Å²Ü²Ù»¤¼Ý1,»¤¼Ý2,Öî¸ðÁÁ:Äã¿ÉÊ¶µÃ´ËÕó.²¥·ÅÊ±¼ä¿ÉÄÜÓÐ7~8Ãë,¿¼ÂÇÉèÖÃÒ»ÏÂµã»÷ºó¿ªÊ¼ÓÎÏ·?
+	
+	while (true)
+	{
+		int key;//°ÑÊó±êµã»÷×ª»»³É²»Í¬µÄÐÅºÅ
+		switch (key)
+		{
+			/*case n:GuanYu->move_up();
+			GuanYu->Stride+=1;//Ä³ÈËÒÆ¶¯Ò»´Î,ËûµÄ²½Êý+1
+			break;
+				
+			case n+1:CaoCao->move_down();
+			CaoCao->Stride+=1;
+			break;
+			
+			etc...
+			*/
+
+		}
+		if (GuanYu->Stride == 1)
+		{
+			CreateThread(NULL, NULL, GuanYu_1, NULL, NULL, NULL);//¹ØÓðÔÚ´Ë
+		}
+		else if (GuanYu->Stride == 25)
+		{
+			CreateThread(NULL, NULL, GuanYu_25, NULL, NULL, NULL);//»¹²»ËÙËÙÁìËÀ
+		}
+		else if (GuanYu->Stride == 50)
+		{
+			CreateThread(NULL, NULL, GuanYu_50, NULL, NULL, NULL);//È¡Èê¹·Í·
+		}
+		else if (GuanYu->Stride == 100)
+		{
+			CreateThread(NULL, NULL, GuanYu_100, NULL, NULL, NULL);//ÄÃÃüÀ´
+		}
+		else if (ZhaoYun->Stride == 1)
+		{
+			CreateThread(NULL, NULL, ZhaoYun_1, NULL, NULL, NULL);//ÎáÄËÕÔ×ÓÁú
+		}
+		else if (ZhaoYun->Stride == 25)
+		{
+			CreateThread(NULL, NULL, ZhaoYun_25, NULL, NULL, NULL);//Ò»Æ¬³àµ¨Æ½ÂÒÊÀ
+		}
+		else if (CaoCao->Stride == 5)
+		{
+			CreateThread(NULL, NULL, CaoCao_5, NULL, NULL, NULL);//Öî¸ðÁÁ:ÄãµÄ¼ÆÄ±±»Ê¶ÆÆÁË
+		}
+		else if (MaChao->Stride == 1)
+		{
+			CreateThread(NULL, NULL, MaChao_1, NULL, NULL, NULL);//È«¾üÍ»»÷
+		}
+		else if (ZhangFei->Stride == 1)
+		{
+			CreateThread(NULL, NULL, ZhangFei_1, NULL, NULL, NULL);//ÕÅ·ÉÔÚ´Ë
+		}
+		else if (HuangZhong->Stride == 5)
+		{
+			CreateThread(NULL, NULL, HuangZhong_1, NULL, NULL, NULL);//Èý²½Ö®ÄÚÈ¡ÄãÐ¡Ãü
+		}
+		else if (CaoCao->x == 1 && CaoCao->y==4)//²Ü²Ù¹ý¹Ø
+		{
+			CreateThread(NULL, NULL, CaoCao_end, NULL, NULL, NULL);
+			//²Ü²Ù:¹þ¹þ¹þ¹þ¹þ
+			//Öî¸ðÁÁ:ÎÒµÄ¼ÆÄ±¾¹±»...
+			end();
+		}
+
+	}
+	
+	system("pause");
+}
