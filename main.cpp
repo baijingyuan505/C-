@@ -1,12 +1,15 @@
 #include"Role.h"
 #include"Stage.h"
 #include"Sound.h"
+#include "optimum.h"
+#include "Interface.h"
+#include "Logic.h"
 #include<iostream>
+
+void end();//结束函数
+
 int main()
 {
-	
-
-
 	Role* CaoCao;
 	Role* ZhangFei;
 	Role* ZhaoYun;
@@ -17,179 +20,165 @@ int main()
 	Role* S2;
 	Role* S3;
 	Role* S4;
-	Stage level;//level是随便实例化的,用来初始化逻辑棋盘
+	Stage level;//
 
-	/*以上是实例化*/
+	Interface scene;
 
-	int t;//存放键盘输入的关卡
-	
-	switch (t)
-	{//delete放在结束游戏函数end()中
-		case 1:
-		{
-			
-			CaoCao=new Boss{ 1,1,0 };
-			GuanYu=new General_1{ 2, 1, 4 };
-			ZhaoYun = new General_1{ 3, 2, 3 };
-			MaChao = new General_1{ 4, 0, 2 };
-			HuangZhong = new General_1{ 5, 2, 2 };
-			ZhangFei = new General_1{ 6, 0, 3 };
-			S1=new Soldier{ 7 ,0,0 };
-			S2=new Soldier{ 8 ,3,0 };
-			S3=new Soldier{ 9 ,0,1 };
-			S4=new Soldier{ 10,3,1 };
-			level.Stage1();
-			break;
-		}
-	
-		case 2:
-		{
-			CaoCao= new Boss{ 1,1,0 };
-			GuanYu = new General_1{ 2, 2, 2 };
-			ZhaoYun = new General_1{ 3, 1, 4 };
-			MaChao = new General_2{ 4, 1, 2 };
-			HuangZhong = new General_2{ 5, 0, 2 };
-			ZhangFei = new General_1{ 6, 2, 3 };
-			S1 =new Soldier{ 7 ,0,0 };
-			S2 =new Soldier{ 8 ,3,0 };
-			S3 =new Soldier{ 9 ,0,1 };
-			S4 =new Soldier{ 10,3,1 };
-			level.Stage2();
+	Interface::Option operation;//枚举 选择的操作
 
+	string code;//帮助提示的代号
+	int logicx, logicy;//点击的点的逻辑坐标（不是左上角）
+	int stage;//关卡号
 
-			break;
-		}
-
-		case 3:
-		{
-			CaoCao=new Boss{ 1,1,0 };
-			GuanYu = new General_1{ 2, 1, 4 };
-			ZhaoYun = new General_2{ 3, 3, 0 };
-			MaChao = new General_2{ 4, 2, 2 };
-			HuangZhong = new General_2{ 5, 1, 2 };
-			ZhangFei = new General_2{ 6, 0, 0 };
-			S1 =new Soldier{ 7 ,0,3 };
-			S2 =new Soldier{ 8 ,3,3 };
-			S3 =new Soldier{ 9 ,0,4 };
-			S4 =new Soldier{ 10,3,4 };
-			level.Stage3();
-
-
-			break;
-		}
-
-		case 4:
-		{
-			CaoCao= new Boss{ 1,1,0 };
-			GuanYu = new General_1{ 2, 0, 4 };
-			ZhaoYun = new General_2{ 3, 0, 0 };
-			MaChao = new General_2{ 4, 1, 2 };
-			HuangZhong = new General_2{ 5, 3, 0 };
-			ZhangFei = new General_1{ 6, 2, 4 };
-			S1 =new Soldier{ 7 ,0,2 };
-			S2 =new Soldier{ 8 ,3,2 };
-			S3 =new Soldier{ 9 ,0,3 };
-			S4 =new Soldier{ 10,3,3 };
-			level.Stage4();
-
-
-			break;
-		}
-		
-		case 5:
-		{
-			CaoCao=new Boss{ 1,1,0 };
-			GuanYu = new General_1{ 2, 1, 3 };
-			ZhaoYun = new General_2{ 3, 3, 0 };
-			MaChao = new General_1{ 4, 0, 2 };
-			HuangZhong = new General_1{ 5, 2, 2 };
-			ZhangFei = new General_2{ 6, 0, 3 };
-			S1 =new Soldier{ 7 ,0,0 };
-			S2 =new Soldier{ 8 ,3,0 };
-			S3 =new Soldier{ 9 ,0,1 };
-			S4 =new Soldier{ 10,3,1 };
-			level.Stage5();
-
-
-			break;
-		}
-	}
-
-	BGM music;
-	music.play_music();
-
-
-	/*初始化完毕 开始游戏*/
-	
-	CreateThread(NULL, NULL, CaoCao_start, NULL, NULL, NULL);
-	//播放曹操护驾1,护驾2,诸葛亮:你可识得此阵.播放时间可能有7~8秒,考虑设置一下点击后开始游戏?
-	
-	while (true)
+	scene.Begin();//开始界面
+	stage = scene.Select();//选关界面
+	switch (stage)
+	{//根据选择的关卡对角色进行实例化：棋子的代号，棋子初始x，初始y坐标
+	case 1:
 	{
-		int key;//把鼠标点击转换成不同的信号
-		switch (key)
-		{
-			/*case n:GuanYu->move_up();
-			GuanYu->Stride+=1;//某人移动一次,他的步数+1
-			break;
-				
-			case n+1:CaoCao->move_down();
-			CaoCao->Stride+=1;
-			break;
-			
-			etc...
-			*/
-
-		}
-		if (GuanYu->Stride == 1)
-		{
-			CreateThread(NULL, NULL, GuanYu_1, NULL, NULL, NULL);//关羽在此
-		}
-		else if (GuanYu->Stride == 25)
-		{
-			CreateThread(NULL, NULL, GuanYu_25, NULL, NULL, NULL);//还不速速领死
-		}
-		else if (GuanYu->Stride == 50)
-		{
-			CreateThread(NULL, NULL, GuanYu_50, NULL, NULL, NULL);//取汝狗头
-		}
-		else if (GuanYu->Stride == 100)
-		{
-			CreateThread(NULL, NULL, GuanYu_100, NULL, NULL, NULL);//拿命来
-		}
-		else if (ZhaoYun->Stride == 1)
-		{
-			CreateThread(NULL, NULL, ZhaoYun_1, NULL, NULL, NULL);//吾乃赵子龙
-		}
-		else if (ZhaoYun->Stride == 25)
-		{
-			CreateThread(NULL, NULL, ZhaoYun_25, NULL, NULL, NULL);//一片赤胆平乱世
-		}
-		else if (CaoCao->Stride == 5)
-		{
-			CreateThread(NULL, NULL, CaoCao_5, NULL, NULL, NULL);//诸葛亮:你的计谋被识破了
-		}
-		else if (MaChao->Stride == 1)
-		{
-			CreateThread(NULL, NULL, MaChao_1, NULL, NULL, NULL);//全军突击
-		}
-		else if (ZhangFei->Stride == 1)
-		{
-			CreateThread(NULL, NULL, ZhangFei_1, NULL, NULL, NULL);//张飞在此
-		}
-		else if (HuangZhong->Stride == 5)
-		{
-			CreateThread(NULL, NULL, HuangZhong_1, NULL, NULL, NULL);//三步之内取你小命
-		}
-		else if (CaoCao->x == 1 && CaoCao->y==4)//曹操过关
-		{
-			CreateThread(NULL, NULL, CaoCao_end, NULL, NULL, NULL);
-			//曹操:哈哈哈哈哈
-			//诸葛亮:我的计谋竟被...
-			end();
-		}
-
+		CaoCao = new Boss{ 1,1,0 };
+		GuanYu = new General_1{ 2, 1, 4 };
+		ZhaoYun = new General_1{ 3, 2, 3 };
+		MaChao = new General_1{ 4, 0, 2 };
+		HuangZhong = new General_1{ 5, 2, 2 };
+		ZhangFei = new General_1{ 6, 0, 3 };
+		S1 = new Soldier{ 7 ,0,0 };
+		S2 = new Soldier{ 8 ,3,0 };
+		S3 = new Soldier{ 9 ,0,1 };
+		S4 = new Soldier{ 10,3,1 };
+		level.Stage1();
+		break;
 	}
-	
-	system("pause");
+
+	case 2:
+	{
+		CaoCao = new Boss{ 1,1,0 };
+		GuanYu = new General_1{ 2, 2, 2 };
+		ZhaoYun = new General_1{ 3, 1, 4 };
+		MaChao = new General_2{ 4, 1, 2 };
+		HuangZhong = new General_2{ 5, 0, 2 };
+		ZhangFei = new General_1{ 6, 2, 3 };
+		S1 = new Soldier{ 7 ,0,0 };
+		S2 = new Soldier{ 8 ,3,0 };
+		S3 = new Soldier{ 9 ,0,1 };
+		S4 = new Soldier{ 10,3,1 };
+		level.Stage2();
+
+
+		break;
+	}
+
+	case 3:
+	{
+		CaoCao = new Boss{ 1,1,0 };
+		GuanYu = new General_1{ 2, 1, 4 };
+		ZhaoYun = new General_2{ 3, 3, 0 };
+		MaChao = new General_2{ 4, 2, 2 };
+		HuangZhong = new General_2{ 5, 1, 2 };
+		ZhangFei = new General_2{ 6, 0, 0 };
+		S1 = new Soldier{ 7 ,0,3 };
+		S2 = new Soldier{ 8 ,3,3 };
+		S3 = new Soldier{ 9 ,0,4 };
+		S4 = new Soldier{ 10,3,4 };
+		level.Stage3();
+
+
+		break;
+	}
+
+	case 4:
+	{
+		CaoCao = new Boss{ 1,1,0 };
+		GuanYu = new General_1{ 2, 0, 4 };
+		ZhaoYun = new General_2{ 3, 0, 0 };
+		MaChao = new General_2{ 4, 1, 2 };
+		HuangZhong = new General_2{ 5, 3, 0 };
+		ZhangFei = new General_1{ 6, 2, 4 };
+		S1 = new Soldier{ 7 ,0,2 };
+		S2 = new Soldier{ 8 ,3,2 };
+		S3 = new Soldier{ 9 ,0,3 };
+		S4 = new Soldier{ 10,3,3 };
+		level.Stage4();
+
+
+		break;
+	}
+
+	case 5:
+	{
+		CaoCao = new Boss{ 1,1,0 };
+		GuanYu = new General_1{ 2, 1, 3 };
+		ZhaoYun = new General_2{ 3, 3, 0 };
+		MaChao = new General_1{ 4, 0, 2 };
+		HuangZhong = new General_1{ 5, 2, 2 };
+		ZhangFei = new General_2{ 6, 0, 3 };
+		S1 = new Soldier{ 7 ,0,0 };
+		S2 = new Soldier{ 8 ,3,0 };
+		S3 = new Soldier{ 9 ,0,1 };
+		S4 = new Soldier{ 10,3,1 };
+		level.Stage5();
+
+
+		break;
+	}
+	}
+
+	//选关后初始化
+	optimum route(stage);
+    const int steps = route.step;
+	Logic<steps> logic;//待调试
+	//logic.Load(static_cast<int>(route.nametable), static_cast<int>(route.dirtable));
+	logic.Load(route.nametable, route.dirtable);//类型转化 问王磊
+	scene.GameInit(stage);//棋盘初始化
+	while (true) {//正式游戏
+		operation=scene.Click();
+		switch (operation) {
+		case Interface::Option::move:
+			logicx = scene.MovePoint.x - 1;
+			logicy = scene.MovePoint.y - 1;
+			//接口,待实现
+			//第一次点击棋盘的逻辑坐标
+			//
+			break;
+		case Interface::Option::help:
+			code=logic.Help();
+			scene.Help(code);//帮助功能发现bug,等我明天修改
+			break;
+		case Interface::Option::revoke:
+			if (logic.Revoke())
+				scene.Revoke();//回退功能完整
+			break;
+		case Interface::Option::music:
+			//音乐的接口
+			//设想的是先点击环境，再弹出三个音乐的选项
+		case Interface::Option::exit:
+			//具体的退出操作
+		}
+		if (logic.Examine())
+			scene.UselesStep();
+		//需要记录这一步走的角色和方向
+		logic.Record(3, 2);//调用示例
+		logic.Value();
+		scene.stepwrite(logic.Cnt);
+		scene.lifewrite(logic.score);
+	}
+
+
+}
+
+void end()//结束游戏后调用的函数
+{
+	/*
+	delete CaoCao;
+	delete ZhangFei;
+	delete ZhaoYun;
+	delete GuanYu;
+	delete MaChao;
+	delete HuangZhong;
+	delete S1;
+	delete S2;
+	delete S3;
+	delete S4;//删除new出来的对象
+
+	*/
 }
