@@ -17,7 +17,7 @@ private:
 	int UselesStep = 0;
 	bool UsedHelp = false;//是否使用了帮助
 	bool UsedRevoke = false;//是否使用了回退
-	int step;
+	int step;//最优解步数
 public:
 	int Cnt = 0;//目前行走的步数
 	int score = 100;//游戏得分（生命值）

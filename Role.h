@@ -23,7 +23,9 @@ public:
 	static enum move_result { fail = 0, up, down, left, right };
 	int State=0;
 	int Stride = 0;//记录各人物的步数
-	int x, y;//人物的坐标
+	//int x, y;//人物的坐标
+	virtual int returnx() = 0;
+	virtual int returny() = 0;
 	virtual move_result move(int, int, int) = 0;
 };
 //曹操
@@ -40,6 +42,12 @@ public:
 		y = y_;
 	}
 	move_result move(int State, int x1, int y1);
+	virtual int returnx() {
+		return x;
+	}
+	virtual int returny() {
+		return y;
+	}
 };
 //将军
 class General:public Role
@@ -58,6 +66,12 @@ public:
 		y = y_;
 	}
 	move_result move(int State, int x1, int y1);
+	virtual int returnx() {
+		return x;
+	}
+	virtual int returny() {
+		return y;
+	}
 };
 
 class Soldier :public Role
@@ -74,6 +88,12 @@ public:
 		y = y_;
 	}
 	move_result move(int State, int x1, int y1);
+	virtual int returnx() {
+		return x;
+	}
+	virtual int returny() {
+		return y;
+	}
 };
 
 

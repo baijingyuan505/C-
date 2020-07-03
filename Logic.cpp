@@ -14,6 +14,7 @@ Logic::Logic(int stage)
 	case 5:
 		step = 178; break;
 	}
+	HelpRoute.clear();
 }
 
 void Logic::Load(std::vector<int>& nametable, std::vector<int>& dirtable)
@@ -22,9 +23,9 @@ void Logic::Load(std::vector<int>& nametable, std::vector<int>& dirtable)
 	int DirCode;//移动方向的代号1,-1,2,-2
 	Optimum.clear();
 	for (int i = 0; i < step; ++i) {
-		RoleCode = static_cast<int>(nametable[i]) - 1;//代号1-10
+		RoleCode = nametable[i] - 1;//代号1-10
 		Move.role = RoleCode;//进行代号转换
-		DirCode = static_cast<int>(dirtable[i]);//代号0-3
+		DirCode = dirtable[i];//代号0-3
 		Move.dir = DirTrans[DirCode];//进行代号转换
 		Optimum.push_back(Move);
 	}
@@ -32,6 +33,7 @@ void Logic::Load(std::vector<int>& nametable, std::vector<int>& dirtable)
 
 void Logic::Record(int RoleCode, int DirCode)
 {
+
 	DirCode = DirTrans[DirCode];
 	Move.role = RoleCode;
 	Move.dir = DirCode;
@@ -56,17 +58,19 @@ int Logic::Help()
 	move HelpMove;//帮助提示
 	if (HelpRoute.empty()) {
 		//如果返回最优解的路线为空
-		OutOfRoute = false;
+		OutOfRoute = false;//说明正在最优解路线上
 		HelpMove = Optimum[Point + 1];//获取最优解路线的下一步
 	}
 	else {
 		//提示返回最优解的路线
-		auto iter = HelpRoute.end();
+		auto iter = HelpRoute.end();//指向容器尾部
 		HelpMove = *iter;//获取返回路线的最后一步
+		//需要判断 修改
 		HelpRoute.pop_back();//同时删除最后一步
 	}
 	UsedHelp = true;//记录使用了该功能，影响得分
 
+	//处理转换
 	HelpMove.role += 1;
 	switch (HelpMove.dir)
 	{
@@ -83,14 +87,20 @@ bool Logic::Examine()
 	if (!OutOfRoute)
 		return false;
 	//未偏移最优解路线，则不可能出现无用功
-	for (auto iter = HelpRoute.end(); iter != HelpRoute.begin(); --iter) {
+	else if(HelpRoute.empty())//如果HelpRoute为空
+		return false;
+
+	auto iter = HelpRoute.end();
+	--iter;
+	for ( ; iter != HelpRoute.begin();--iter ) {
+		
 		MoveCheck[(*iter).role] += (*iter).dir;//记录对应棋子的位置变化
 		int Count = 0;//每一次循环，进行一次计数
 		for (auto i : MoveCheck) {
-			if (i == 0)//查看所有棋子的位置变化
+			if (i == 0)//查看所有棋子的位置变化  
 				++Count;//为0则代表回到先前状态，计数加1
 		}
-		++UselesStep;
+		++UselesStep;//假定无用的步数 进行计数
 		if (Count == 10) {
 			//计数为10，则说明出现无用功
 			for (int Cnt = 0; Cnt < UselesStep; ++Cnt)
@@ -106,7 +116,7 @@ bool Logic::Examine()
 	//对记录棋子变化的数组清0
 	for (auto i : MoveCheck)
 		i = 0;
-	return false;
+	return false;//
 }
 
 bool Logic::Revoke()

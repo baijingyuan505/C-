@@ -459,4 +459,5 @@ void Interface::DrawBoard()
 	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
 	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
 	putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+
 }

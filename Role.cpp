@@ -92,6 +92,7 @@ Role::move_result Boss::move(int State, int x1, int y1)
 
 Role::move_result General::move(int State, int x1, int y1)
 {
+	x = 0, y = 0;
 	switch (Form) {
 	case 1://∫·Ãı
 		if (y1 < this->y && (this->x == x1 || x1 - 1 == this->x))//up
