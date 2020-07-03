@@ -4,15 +4,15 @@ Logic::Logic(int stage)
 {
 	switch (stage) {
 	case 1:
-		step = 48;break;
+		step = 48; break;
 	case 2:
-		step = 62;break;
+		step = 62; break;
 	case 3:
-		step = 90;break;
+		step = 90; break;
 	case 4:
-		step = 125;break;
+		step = 125; break;
 	case 5:
-		step = 178;break;
+		step = 178; break;
 	}
 }
 
@@ -37,18 +37,18 @@ void Logic::Record(int RoleCode, int DirCode)
 	Move.dir = DirCode;
 	if (!OutOfRoute) {
 		//未偏移最优解路线时
-		if (Move.dir == Optimum[Point].dir&& Move.role == Optimum[Point].role)
+		if (Move.dir == Optimum[Point].dir && Move.role == Optimum[Point].role)
 			++Point;//行走在最优解路线上，计数加1
 		else
 			OutOfRoute = true;//否则偏移了路线
 	}
-	if(OutOfRoute){
+	if (OutOfRoute) {
 		//偏移了最优解路线
 		HelpRoute.push_back(Move);
 	}
 
 	++Cnt;//总步数加1
-	
+
 }
 
 int Logic::Help()
@@ -82,10 +82,10 @@ bool Logic::Examine()
 {
 	if (!OutOfRoute)
 		return false;
-	    //未偏移最优解路线，则不可能出现无用功
+	//未偏移最优解路线，则不可能出现无用功
 	for (auto iter = HelpRoute.end(); iter != HelpRoute.begin(); --iter) {
 		MoveCheck[(*iter).role] += (*iter).dir;//记录对应棋子的位置变化
-		int Count=0;//每一次循环，进行一次计数
+		int Count = 0;//每一次循环，进行一次计数
 		for (auto i : MoveCheck) {
 			if (i == 0)//查看所有棋子的位置变化
 				++Count;//为0则代表回到先前状态，计数加1
@@ -95,7 +95,7 @@ bool Logic::Examine()
 			//计数为10，则说明出现无用功
 			for (int Cnt = 0; Cnt < UselesStep; ++Cnt)
 				HelpRoute.pop_back();
-			    //删除帮助路线中无用的步数
+			//删除帮助路线中无用的步数
 			return true;//满足条件 出现提示 
 		}
 

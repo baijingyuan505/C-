@@ -4,20 +4,15 @@
 #include <stdlib.h>
 #include <sstream>
 #include <stdio.h>
+#include "Interface.h"
+#include <easyx.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <sstream>
+#include <stdio.h>
 #define wid 800
 #define hei 700
 using namespace std;
-
-point c[5] = { { 200,50 },{ 200,50 },{ 200,50 },{ 200,50 } ,{ 200,50 } };
-point s1[5] = { { 100,50 },{ 100,50 },{100,350 },{100,250},{100,350} };
-point s2[5] = { { 100,150 },{100,150},{100,450},{100,350},{100,450} };
-point s3[5] = { { 400,50 } ,{400,50},{400,350},{400,250},{400,350} };
-point s4[5] = { { 400,150 },{400,150},{400,450},{400,350},{400,450} };
-point m[5] = { { 100,250 },{200,250},{300,250},{200,250},{100,250} };
-point h[5] = { { 300,250 },{100,250},{200,250},{400,50},{300,250} };
-point zf[5] = { { 100,350 },{300,350}, {100,50},{300,450}, {100,50} };
-point zy[5] = { { 300,350 }, {200,450} , {400,50},{100,50}, {400,50} };
-point g[5] = { { 200,450 },{300,250},{200,450},{100,450},{200,350} };
 
 //游戏开始界面
 void Interface::Begin()
@@ -70,13 +65,11 @@ void Interface::Begin()
 			if (ms.x >= 80 && ms.x <= 230 && ms.y >= 400 && ms.y <= 470)
 			{
 				closegraph();
-				gameselect();
 				break;
 			}
 			else if (ms.x >= 280 && ms.x <= 430 && ms.y >= 400 && ms.y <= 470)
 			{
 				closegraph();
-				gameselect();
 				break;
 			}
 			else if (ms.x >= 480 && ms.x <= 630 && ms.y >= 400 && ms.y <= 470)
@@ -127,12 +120,7 @@ int Interface::Select()
 
 	loadimage(&buttom_rx2, _T("D:\\cpicture\\sbuttom1.png"), 80, 40);
 	/*
-
-
 	美化操作感预留空间
-
-
-
 	*/
 
 	putimage(0, 0, &back_pic1);
@@ -185,15 +173,19 @@ int Interface::Select()
 	return levelselect;
 }
 //提示栏刷新函数
-void Interface::TipReflesh()  
+void Interface::TipReflesh()
 {
 	IMAGE tip;
 	loadimage(&tip, _T("D:\\cpicture\\tip.png"), 400, 170);
 	putimage(550, 10, &tip);
 }
 //初始化游戏棋盘
-void Interface::GameInit(int num)
+void Interface::GameInit(int num, int(&InitLocate)[10][2])
 {
+	for (int i = 0; i < 10; ++i) {
+		RefleshLocate[i][0] = InitLocate[i][0]+1;
+		RefleshLocate[i][1] = InitLocate[i][1]+1;
+	}
 	initgraph(wid, hei);
 	IMAGE bg2;//背景贴图
 	IMAGE chart;
@@ -260,16 +252,16 @@ void Interface::GameInit(int num)
 	putimage(100, 20, &chart);
 	putimage(550, 5, &function);
 	//人物图案显示
-	putimage(c[num - 1].x, c[num - 1].y, &cchess);
-	putimage(zf[num - 1].x, zf[num - 1].y, &zf1chess);
-	putimage(m[num - 1].x, m[num - 1].y, &m1chess);
-	putimage(h[num - 1].x, h[num - 1].y, &hz1chess);
-	putimage(g[num - 1].x, g[num - 1].y, &gchess);
-	putimage(zy[num - 1].x, zy[num - 1].y, &zy1chess);
-	putimage(s1[num - 1].x, s1[num - 1].y, &s1chess);
-	putimage(s2[num - 1].x, s2[num - 1].y, &s2chess);
-	putimage(s3[num - 1].x, s3[num - 1].y, &s3chess);
-	putimage(s4[num - 1].x, s4[num - 1].y, &s4chess);
+	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
+	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &m1chess);
+	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &hz1chess);
+	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &gchess);
+	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &zy1chess);
+	putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+	putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
 	//状态栏图标显示
 	putimage(680, 220, &step);
 	putimage(680, 270, &life);
@@ -282,7 +274,7 @@ void Interface::GameInit(int num)
 //游戏中的点击操作
 Interface::Option Interface::Click()
 {
-	
+
 	MOUSEMSG ms = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
 	while (1)
 	{
@@ -294,7 +286,15 @@ Interface::Option Interface::Click()
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
+				!movearg;
 				return Option::move;
+			}
+			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && movearg == 1)
+			{
+				MovePoint.x = ms.x / 100;
+				MovePoint.y = ms.y / 100;
+				!movearg;
+				return Option::direction;
 			}
 			if (ms.x >= 680 && ms.x <= 800 && ms.y >= 320 && ms.y <= 360)
 				return Option::help;
@@ -316,6 +316,9 @@ Interface::Option Interface::Click()
 //更新现在走的步数
 void Interface::stepwrite(int snum)
 {
+	IMAGE step;
+	loadimage(&step, _T("D:\\cpicture\\stepnum.png"), 120, 40);
+	putimage(680, 220, &step);
 	settextcolor(WHITE);
 	settextstyle(10, 8, _T("宋体"));
 	char a[3];
@@ -325,6 +328,9 @@ void Interface::stepwrite(int snum)
 //更新现在的生命值
 void Interface::lifewrite(int lnum)
 {
+	IMAGE life;
+	loadimage(&life, _T("D:\\cpicture\\life.png"), 120, 40);
+	putimage(680, 270, &life);
 	settextcolor(WHITE);
 	settextstyle(10, 8, _T("宋体"));
 	char b[3];
@@ -332,57 +338,57 @@ void Interface::lifewrite(int lnum)
 	outtextxy(700, 300, b);
 }
 //使用帮助功能
-void Interface::Help(std::string code)
+void Interface::Help(int code)
 {
 	IMAGE Role;//角色提示
 	IMAGE Dir;//方向提示
-	char role = code[0];
-	char dir = code[1];
+	int role = code / 10;
+	int dir = code % 10;
 	switch (role)
 	{
-	case '1':
+	case 1:
 		loadimage(&Role, _T("D:\\cpicture\\tip_c.png"), 60, 60);
 		break;
-	case '2':
+	case 2:
 		loadimage(&Role, _T("D:\\cpicture\\tip_g.png"), 60, 60);
 		break;
-	case '3':
+	case 3:
 		loadimage(&Role, _T("D:\\cpicture\\tip_m.png"), 60, 60);
 		break;
-	case '4':
+	case 4:
 		loadimage(&Role, _T("D:\\cpicture\\tip_h.png"), 60, 60);
 		break;
-	case '5':
+	case 5:
 		loadimage(&Role, _T("D:\\cpicture\\tip_zf.png"), 60, 60);
 		break;
-	case '6':
+	case 6:
 		loadimage(&Role, _T("D:\\cpicture\\tip_zy.png"), 60, 60);
 		break;
-	case '7':
+	case 7:
 		loadimage(&Role, _T("D:\\cpicture\\tip_s1.png"), 60, 60);
 		break;
-	case '8':
+	case 8:
 		loadimage(&Role, _T("D:\\cpicture\\tip_s2.png"), 60, 60);
 		break;
-	case '9':
+	case 9:
 		loadimage(&Role, _T("D:\\cpicture\\tip_s3.png"), 60, 60);
 		break;
-	case '10':
+	case 10:
 		loadimage(&Role, _T("D:\\cpicture\\tip_s4.png"), 60, 60);
 		break;
 	}
 	switch (dir)
 	{
-	case '1':
+	case 1:
 		loadimage(&Dir, _T("D:\\cpicture\\up.png"), 60, 60);
 		break;
-	case '2':
+	case 2:
 		loadimage(&Dir, _T("D:\\cpicture\\down.png"), 60, 60);
 		break;
-	case '3':
+	case 3:
 		loadimage(&Dir, _T("D:\\cpicture\\left.png"), 60, 60);
 		break;
-	case '4':
+	case 4:
 		loadimage(&Dir, _T("D:\\cpicture\\right.png"), 60, 60);
 		break;
 	}
@@ -404,5 +410,51 @@ void Interface::Revoke()
 	loadimage(&ht, _T("D:\\cpicture\\ht.png"), 100, 40);
 	putimage(600, 80, &ht);
 }
+//棋盘贴图的刷新
+void Interface::BoardReflesh(int state, int x, int y)
+{
+	RefleshLocate[state - 1][0] = x;
+	RefleshLocate[state - 1][1] = y;
+	IMAGE chart;
+	IMAGE cchess;
+	IMAGE gchess;
+	IMAGE zf1chess;
+	IMAGE zf2chess;
+	IMAGE zy1chess;
+	IMAGE zy2chess;
+	IMAGE hz1chess;
+	IMAGE hz2chess;
+	IMAGE m1chess;
+	IMAGE m2chess;
+	IMAGE s1chess;
+	IMAGE s2chess;
+	IMAGE s3chess;
+	IMAGE s4chess;
 
+	loadimage(&chart, _T("D:\\cpicture\\chart.png"), 400, 600);
+	loadimage(&cchess, _T("D:\\cpicture\\c.png"), 200, 200);
+	loadimage(&zf1chess, _T("D:\\cpicture\\zf1.png"), 200, 100);
+	loadimage(&zf2chess, _T("D:\\cpicture\\zf2.png"), 100, 200);
+	loadimage(&zy1chess, _T("D:\\cpicture\\zy1.png"), 200, 100);
+	loadimage(&zy2chess, _T("D:\\cpicture\\zy2.png"), 100, 200);
+	loadimage(&m1chess, _T("D:\\cpicture\\m1.png"), 200, 100);
+	loadimage(&m2chess, _T("D:\\cpicture\\m2.png"), 100, 200);
+	loadimage(&hz1chess, _T("D:\\cpicture\\h1.png"), 200, 100);
+	loadimage(&hz2chess, _T("D:\\cpicture\\h2.png"), 100, 200);
+	loadimage(&gchess, _T("D:\\cpicture\\g.png"), 200, 100);
+	loadimage(&s1chess, _T("D:\\cpicture\\s1.png"), 100, 100);
+	loadimage(&s2chess, _T("D:\\cpicture\\s2.png"), 100, 100);
+	loadimage(&s3chess, _T("D:\\cpicture\\s3.png"), 100, 100);
+	loadimage(&s4chess, _T("D:\\cpicture\\s4.png"), 100, 100);
 
+	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
+	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &m1chess);
+	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &hz1chess);
+	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &gchess);
+	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &zy1chess);
+	putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+	putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+}

@@ -1,146 +1,105 @@
 #include"Role.h"
 #include"Stage.h"
 #include"Sound.h"
-#include "optimum改改.h"
+#include "optimum.h"
 #include "Interface.h"
-#include "Logic.cpp"
+#include "Logic.h"
 #include<iostream>
 
 void end();//结束函数
 
 int main()
 {
-	Role* CaoCao;
-	Role* ZhangFei;
-	Role* ZhaoYun;
-	Role* GuanYu;
-	Role* MaChao;
-	Role* HuangZhong;
-	Role* S1;
-	Role* S2;
-	Role* S3;
-	Role* S4;
+	Role* roles[10];
 	Stage level;//
 
 	Interface scene;
 
 	Interface::Option operation;//枚举 选择的操作
 
-	string code;//帮助提示的代号
+	int RoleCode = 0, DirCode=0;
+	Role::move_result moveCode;
+	//代号
+	int code;//帮助提示的代号
 	int logicx, logicy;//点击的点的逻辑坐标（不是左上角）
 	int stage;//关卡号
 
 	scene.Begin();//开始界面
 	stage = scene.Select();//选关界面
-	switch (stage)
-	{//根据选择的关卡对角色进行实例化：棋子的代号，棋子初始x，初始y坐标
-	case 1:
-	{
-		CaoCao = new Boss{ 1,1,0 };
-		GuanYu = new General_1{ 2, 1, 4 };
-		ZhaoYun = new General_1{ 3, 2, 3 };
-		MaChao = new General_1{ 4, 0, 2 };
-		HuangZhong = new General_1{ 5, 2, 2 };
-		ZhangFei = new General_1{ 6, 0, 3 };
-		S1 = new Soldier{ 7 ,0,0 };
-		S2 = new Soldier{ 8 ,3,0 };
-		S3 = new Soldier{ 9 ,0,1 };
-		S4 = new Soldier{ 10,3,1 };
-		level.Stage1();
-		break;
+	
+	int  InitBoss[5][2] = { {1,0},{1,0},{1,0},{1,0},{1,0} };
+	int  InitGeneral[5][5][3] = {
+	{ {1,0,3}, {1,2,3}, {2,0,0}, {1,2,4}, {2,0,3} },
+	{ {1,2,3}, {1,1,4}, {2,3,0}, {2,0,0}, {2,3,0} },
+	{ {1,1,4}, {1,2,2}, {1,1,4}, {1,0,4}, {1,1,3} },
+	{ {1,0,2}, {2,1,2}, {2,2,2}, {2,1,2}, {1,0,2} },
+	{ {1,2,2}, {2,0,2}, {2,1,2}, {2,3,0}, {1,2,2} } };
+	int InitSoldier[4][5][3] = {
+	{ {0,0}, {0,0}, {0,3}, {0,2}, {0,0} },
+	{ {3,0}, {3,0}, {3,3}, {3,2}, {3,0} },
+	{ {0,1}, {0,1}, {0,4}, {0,3}, {0,1} },
+	{ {3,1}, {3,1}, {3,4}, {3,3}, {3,1} } };
+
+	int InitLocate[10][2] = { 0 };
+	int Initx=0, Inity=0,InitForm=0;
+	int i = 0;
+	    Initx=InitLocate[0][0] = InitBoss[stage - 1][0];
+	    Inity=InitLocate[0][1] = InitBoss[stage - 1][1];
+		roles[0] = new Boss(i+1, Initx, Inity);
+	for ( ; i < 6; ++i) {
+		InitForm = InitGeneral[i-1][stage - 1][0];
+		Initx=InitLocate[i][0]= InitGeneral[i-1][stage - 1][1];
+		Inity=InitLocate[i][1] = InitGeneral[i-1][stage - 1][2];
+		roles[i] = new General(i+1 , InitForm, Initx, Inity);
 	}
-
-	case 2:
-	{
-		CaoCao = new Boss{ 1,1,0 };
-		GuanYu = new General_1{ 2, 2, 2 };
-		ZhaoYun = new General_1{ 3, 1, 4 };
-		MaChao = new General_2{ 4, 1, 2 };
-		HuangZhong = new General_2{ 5, 0, 2 };
-		ZhangFei = new General_1{ 6, 2, 3 };
-		S1 = new Soldier{ 7 ,0,0 };
-		S2 = new Soldier{ 8 ,3,0 };
-		S3 = new Soldier{ 9 ,0,1 };
-		S4 = new Soldier{ 10,3,1 };
-		level.Stage2();
-
-
-		break;
+	for ( ; i < 10; ++i) {
+		Initx=InitLocate[i][0] = InitSoldier[i-6][stage - 1][0];
+		Inity=InitLocate[i][1] = InitSoldier[i-6][stage - 1][1];
+		roles[i] = new Soldier(i + 1, Initx, Inity);
 	}
-
-	case 3:
-	{
-		CaoCao = new Boss{ 1,1,0 };
-		GuanYu = new General_1{ 2, 1, 4 };
-		ZhaoYun = new General_2{ 3, 3, 0 };
-		MaChao = new General_2{ 4, 2, 2 };
-		HuangZhong = new General_2{ 5, 1, 2 };
-		ZhangFei = new General_2{ 6, 0, 0 };
-		S1 = new Soldier{ 7 ,0,3 };
-		S2 = new Soldier{ 8 ,3,3 };
-		S3 = new Soldier{ 9 ,0,4 };
-		S4 = new Soldier{ 10,3,4 };
-		level.Stage3();
-
-
-		break;
-	}
-
-	case 4:
-	{
-		CaoCao = new Boss{ 1,1,0 };
-		GuanYu = new General_1{ 2, 0, 4 };
-		ZhaoYun = new General_2{ 3, 0, 0 };
-		MaChao = new General_2{ 4, 1, 2 };
-		HuangZhong = new General_2{ 5, 3, 0 };
-		ZhangFei = new General_1{ 6, 2, 4 };
-		S1 = new Soldier{ 7 ,0,2 };
-		S2 = new Soldier{ 8 ,3,2 };
-		S3 = new Soldier{ 9 ,0,3 };
-		S4 = new Soldier{ 10,3,3 };
-		level.Stage4();
-
-
-		break;
-	}
-
-	case 5:
-	{
-		CaoCao = new Boss{ 1,1,0 };
-		GuanYu = new General_1{ 2, 1, 3 };
-		ZhaoYun = new General_2{ 3, 3, 0 };
-		MaChao = new General_1{ 4, 0, 2 };
-		HuangZhong = new General_1{ 5, 2, 2 };
-		ZhangFei = new General_2{ 6, 0, 3 };
-		S1 = new Soldier{ 7 ,0,0 };
-		S2 = new Soldier{ 8 ,3,0 };
-		S3 = new Soldier{ 9 ,0,1 };
-		S4 = new Soldier{ 10,3,1 };
-		level.Stage5();
-
-
-		break;
-	}
-	}
-
 	//选关后初始化
+	level.Select(stage);
 	optimum route(stage);
 	Logic logic(stage);
 	logic.Load(route.nametable, route.dirtable);//在logic中装载最优解
-
-	scene.GameInit(stage);//棋盘初始化
+	scene.GameInit(stage,InitLocate);//棋盘初始化
 	while (true) {//正式游戏
-		operation=scene.Click();
+		operation = scene.Click();
 		switch (operation) {
 		case Interface::Option::move:
+			//第一次的逻辑坐标
 			logicx = scene.MovePoint.x - 1;
 			logicy = scene.MovePoint.y - 1;
-			//接口,待实现
-			//第一次点击棋盘的逻辑坐标
-			//
+			RoleCode = getState(logicx, logicy);
+			break;
+		case Interface::direction:
+			//第二次的逻辑坐标
+			logicx = scene.MovePoint.x - 1;
+			logicy = scene.MovePoint.y - 1;
+			moveCode=roles[RoleCode + 1]->move(RoleCode, logicx, logicy);
+			switch (moveCode) {
+			    case Role::move_result::up:
+				    DirCode = 1;
+				break;
+				case Role::move_result::down:
+					DirCode = 2;
+					break;
+				case Role::move_result::left:
+					DirCode = 3;
+					break;
+				case Role::move_result::right:
+					DirCode = 4;
+					break;
+				default:
+					break;
+			}
+			if (moveCode != Role::move_result::fail) {
+				scene.BoardReflesh(RoleCode, roles[RoleCode - 1]->x, roles[RoleCode - 1]->y);
+				logic.Record(RoleCode, DirCode);
+			}
 			break;
 		case Interface::Option::help:
-			code=logic.Help();
+			code = logic.Help();
 			scene.Help(code);//帮助功能发现bug,等我明天修改
 			break;
 		case Interface::Option::revoke:
@@ -151,33 +110,16 @@ int main()
 			//音乐的接口
 			//设想的是先点击环境，再弹出三个音乐的选项
 		case Interface::Option::exit:
-			//具体的退出操作
+			//具体的退出操作		
 		}
 		if (logic.Examine())
 			scene.UselesStep();
-		//需要记录这一步走的角色和方向
-		logic.Record(3, 2);//调用示例
+
 		logic.Value();
 		scene.stepwrite(logic.Cnt);
 		scene.lifewrite(logic.score);
 	}
 
-
-}
-
-void end()//结束游戏后调用的函数
-{
-	/*
-	delete CaoCao;
-	delete ZhangFei;
-	delete ZhaoYun;
-	delete GuanYu;
-	delete MaChao;
-	delete HuangZhong;
-	delete S1;
-	delete S2;
-	delete S3;
-	delete S4;//删除new出来的对象
-
-	*/
+	for (auto role : roles)
+		delete role;
 }
