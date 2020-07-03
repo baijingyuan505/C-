@@ -4,12 +4,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include <stdio.h>
-#include "Interface.h"
-#include <easyx.h>
-#include <conio.h>
-#include <stdlib.h>
-#include <sstream>
-#include <stdio.h>
+
 #define wid 800
 #define hei 700
 using namespace std;
@@ -119,13 +114,10 @@ int Interface::Select()
 	loadimage(&buttom_CF, _T("D:\\cpicture\\sbuttomCF.png"), 80, 50);     //出发按钮
 
 	loadimage(&buttom_rx2, _T("D:\\cpicture\\sbuttom1.png"), 80, 40);
-	/*
-	美化操作感预留空间
-	*/
 
 	putimage(0, 0, &back_pic1);
 	putimage(300, 30, &buttom_BT);             //选关标题贴图
-	putimage(360, 130, &buttom_x2);            //过五关贴图
+	putimage(360, 130, &buttom_x2);            //过五关
 	putimage(360, 180, &buttom_x3);            //层层设防
 	putimage(360, 230, &buttom_x4);            //左右布兵
 	putimage(360, 280, &buttom_x5);            //插翅难飞
@@ -133,7 +125,6 @@ int Interface::Select()
 	putimage(270, 400, &buttom_YL);             //演练功能
 	putimage(450, 400, &buttom_CF);            //出发功能
 	MOUSEMSG ms = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
-	MOUSEMSG ms2 = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
 	int levelselect;
 	while (true)
 	{
@@ -170,6 +161,29 @@ int Interface::Select()
 
 	}
 	return levelselect;
+}
+//模式选择
+Interface::Mode Interface::Choose()
+{
+	MOUSEMSG ms2 = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
+	while (true)
+	{
+		ms2 = GetMouseMsg();
+		if (ms2.uMsg == WM_LBUTTONUP) {
+			if (ms2.x >= 270 && ms2.x <= 350 && ms2.y >= 400 && ms2.y <= 450)
+			{
+				closegraph();
+				return Mode::show;
+				break;
+			}
+			else if (ms2.x >= 450 && ms2.x <= 530 && ms2.y >= 400 && ms2.y <= 450)
+			{
+				closegraph();
+				return Mode::play;
+				break;
+			}
+		}	
+	}
 }
 //提示栏刷新函数
 void Interface::TipReflesh()
@@ -430,6 +444,7 @@ void Interface::DrawBoard()
 	loadimage(&s3chess, _T("D:\\cpicture\\s3.png"), 100, 100);
 	loadimage(&s4chess, _T("D:\\cpicture\\s4.png"), 100, 100);
 
+	putimage(100, 20, &chart);
 	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
 	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
 	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &m1chess);

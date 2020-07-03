@@ -119,12 +119,13 @@ optimum::optimum(int n) {
 	}
 }
 
-int optimum::moveRole(int i)
+int optimum::moveRole()
 {
-	return nametable[i];
+	return nametable[counter];
 }
 
-int optimum::moveDir(int i)
+int optimum::moveDir()
 {
-	return dirtable[i];
+	++counter;
+	return dirtable[counter - 1];
 }
