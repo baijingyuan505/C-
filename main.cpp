@@ -1,9 +1,9 @@
 #include"Role.h"
 #include"Stage.h"
 #include"Sound.h"
-#include "optimum.h"
+#include "optimum改改.h"
 #include "Interface.h"
-#include "Logic.h"
+#include "Logic.cpp"
 #include<iostream>
 
 void end();//结束函数
@@ -125,10 +125,9 @@ int main()
 
 	//选关后初始化
 	optimum route(stage);
-    const int steps = route.step;
-	Logic<steps> logic;//待调试
-	//logic.Load(static_cast<int>(route.nametable), static_cast<int>(route.dirtable));
-	logic.Load(route.nametable, route.dirtable);//类型转化 问王磊
+	Logic logic(stage);
+	logic.Load(route.nametable, route.dirtable);//在logic中装载最优解
+
 	scene.GameInit(stage);//棋盘初始化
 	while (true) {//正式游戏
 		operation=scene.Click();

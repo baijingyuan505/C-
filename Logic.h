@@ -1,11 +1,13 @@
 #pragma once
 #include <vector>
 #include <string>
-template<int step> class Logic
+#include "optimum改改.h"
+
+class Logic
 {
 private:
 	struct move { int role; int dir; };//一次移动的记录
-	move Optimum[step];//存储本关的最优解
+	std::vector<move> Optimum;//存储本关的最优解
 	bool OutOfRoute = false;//是否偏离了最优解路线
 	int Point = 0;//目前行走在最优解路线上的点
 	move Move;//玩家的一次操作
@@ -15,14 +17,16 @@ private:
 	int UselesStep=0;
 	bool UsedHelp=false;//是否使用了帮助
 	bool UsedRevoke=false;//是否使用了回退
+	int step;
 public:
 	int Cnt = 0;//目前行走的步数
 	int score=100;//游戏得分（生命值）
-	void Load(std::vector<int>& nametable, std::vector<int>& dirtable);//录入最优解
+	void Load(std::vector<optimum::name>& nametable, std::vector<optimum::dir>& dirtable);//录入最优解
 	void Record(int RoleCode, int DirCode);//记录玩家的移动
 	bool Examine();//检查无用功函数
-	std::string Help();//帮助功能
+	int Help();//帮助功能
 	bool Revoke();//回退功能
 	void Value();//进行评分
+	Logic(int stage);
 };
 

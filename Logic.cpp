@@ -1,27 +1,43 @@
 #include "Logic.h"
 
-template<int step>
-inline void Logic<step>::Load(std::vector<int>& nametable, std::vector<int>& dirtable)
+Logic::Logic(int stage)
 {
-	int RoleCode;//棋子的代号0-9
-	int DirCode;//移动方向的代号1,-1,2,-2
-	for (int i = 0; i < step; ++i) {
-		RoleCode = nametable[i] - 1;//代号1-10
-		Optimum[i].role = RoleCode;//进行代号转换
-		DirCode = dirtable[i];//代号0-3
-		Optimum[i].dir = DirTrans[DirCode];//进行代号转换
+	switch (stage) {
+	case 1:
+		step = 48;break;
+	case 2:
+		step = 62;break;
+	case 3:
+		step = 90;break;
+	case 4:
+		step = 125;break;
+	case 5:
+		step = 178;break;
 	}
 }
 
-template<int step>
-void Logic<step>::Record(int RoleCode, int DirCode)
+inline void Logic::Load(std::vector<optimum::name>& nametable, std::vector<optimum::dir>& dirtable)
+{
+	int RoleCode;//棋子的代号0-9
+	int DirCode;//移动方向的代号1,-1,2,-2
+	Optimum.clear();
+	for (int i = 0; i < step; ++i) {
+		RoleCode = static_cast<int>(nametable[i]) - 1;//代号1-10
+		Move.role = RoleCode;//进行代号转换
+		DirCode = static_cast<int>(dirtable[i]);//代号0-3
+		Move.dir = DirTrans[DirCode];//进行代号转换
+		Optimum.push_back(Move);
+	}
+}
+
+void Logic::Record(int RoleCode, int DirCode)
 {
 	DirCode = DirTrans[DirCode];
 	Move.role = RoleCode;
 	Move.dir = DirCode;
 	if (!OutOfRoute) {
 		//未偏移最优解路线时
-		if (Move == Optimum[Point])
+		if (Move.dir == Optimum[Point].dir&& Move.role == Optimum[Point].role)
 			++Point;//行走在最优解路线上，计数加1
 		else
 			OutOfRoute = true;//否则偏移了路线
@@ -35,8 +51,7 @@ void Logic<step>::Record(int RoleCode, int DirCode)
 	
 }
 
-template<int step>
-std::string Logic<step>::Help()
+int Logic::Help()
 {
 	move HelpMove;//帮助提示
 	if (HelpRoute.empty()) {
@@ -51,20 +66,25 @@ std::string Logic<step>::Help()
 		HelpRoute.pop_back();//同时删除最后一步
 	}
 	UsedHelp = true;//记录使用了该功能，影响得分
-	char Code[2];
-	Code[0] = HelpMove.role;
-	Code[1] = HelpMove.dir;
-	return Code[0] + Code[1];//返回提示的代号
+
+	HelpMove.role += 1;
+	switch (HelpMove.dir)
+	{
+	case 1:HelpMove.dir = 1; break;
+	case -1:HelpMove.dir = 2; break;
+	case 2:HelpMove.dir = 3; break;
+	case -2:HelpMove.dir = 4; break;
+	}
+	return HelpMove.role * 10 + HelpMove.dir;//返回提示的代号
 }
 
-template<int step>
-bool Logic<step>::Examine()
+bool Logic::Examine()
 {
 	if (!OutOfRoute)
 		return false;
 	    //未偏移最优解路线，则不可能出现无用功
 	for (auto iter = HelpRoute.end(); iter != HelpRoute.begin(); --iter) {
-		MoveCheck[*iter.role] += *iter.dir;//记录对应棋子的位置变化
+		MoveCheck[(*iter).role] += (*iter).dir;//记录对应棋子的位置变化
 		int Count=0;//每一次循环，进行一次计数
 		for (auto i : MoveCheck) {
 			if (i == 0)//查看所有棋子的位置变化
@@ -89,8 +109,7 @@ bool Logic<step>::Examine()
 	return false;
 }
 
-template<int step>
-bool Logic<step>::Revoke()
+bool Logic::Revoke()
 {
 	if (UselesStep != 0) {
 		Cnt -= UselesStep;//减去无用的步数
@@ -100,8 +119,7 @@ bool Logic<step>::Revoke()
 	return false;
 }
 
-template<int step>
-void Logic<step>::Value()
+void Logic::Value()
 {
 	if (Cnt > step)
 		score -= 1;
