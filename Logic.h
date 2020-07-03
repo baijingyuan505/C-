@@ -27,6 +27,6 @@ public:
 	int Help();//帮助功能
 	bool Revoke();//回退功能
 	void Value();//进行评分
-	Logic(int stage);
+	void Init(int stage);
 };
 

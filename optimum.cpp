@@ -1,6 +1,7 @@
 #include "optimum.h"
 
-optimum::optimum(int n) {
+void optimum::Init(int n)
+{
 	nametable.clear();
 	dirtable.clear();
 	//记录了最优解操作的表，格式为每20个数换一行，即一行20个元素

@@ -1,6 +1,6 @@
 #include "Logic.h"
 
-Logic::Logic(int stage)
+void Logic::Init(int stage)
 {
 	switch (stage) {
 	case 1:
