@@ -12,7 +12,7 @@ public:
 	std::vector<int> dirtable;//移动方向的记录表格
 	int step = 0;//最优解的移动步数
 
-	optimum(int n);//构造函数:生成以上3个成员变量，参数为关卡序号1-5
+	void Init(int n);//构造函数:生成以上3个成员变量，参数为关卡序号1-5
 
 	int moveRole();
 	int moveDir();
