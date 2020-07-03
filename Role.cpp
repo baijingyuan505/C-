@@ -1,14 +1,11 @@
 #include"Role.h"
 #include<iostream>
 
+extern int LogicPanel[5][4];
 
 int getState(int x, int y) {
 	return LogicPanel[y][x];
 }
-#include<iostream>
-
-
-
 /******************************************
 Role.h/cpp文件定义了棋子在逻辑棋盘上移动的函数
 *******************************************/

@@ -1,12 +1,9 @@
-#include"Role.h"
 #include"Stage.h"
-#include"Sound.h"
-#include "optimum.h"
+#include "Role.h"
 #include "Interface.h"
 #include "Logic.h"
 #include<iostream>
-
-void end();//结束函数
+int LogicPanel[5][4] = { 0 };
 
 int main()
 {
@@ -46,6 +43,7 @@ int main()
 	    Initx=InitLocate[0][0] = InitBoss[stage - 1][0];
 	    Inity=InitLocate[0][1] = InitBoss[stage - 1][1];
 		roles[0] = new Boss(i+1, Initx, Inity);
+		++i;
 	for ( ; i < 6; ++i) {
 		InitForm = InitGeneral[i-1][stage - 1][0];
 		Initx=InitLocate[i][0]= InitGeneral[i-1][stage - 1][1];
@@ -76,22 +74,22 @@ int main()
 			//第二次的逻辑坐标
 			logicx = scene.MovePoint.x - 1;
 			logicy = scene.MovePoint.y - 1;
-			moveCode=roles[RoleCode + 1]->move(RoleCode, logicx, logicy);
+			moveCode = roles[RoleCode + 1]->move(RoleCode, logicx, logicy);
 			switch (moveCode) {
-			    case Role::move_result::up:
-				    DirCode = 1;
+			case Role::move_result::up:
+				DirCode = 1;
 				break;
-				case Role::move_result::down:
-					DirCode = 2;
-					break;
-				case Role::move_result::left:
-					DirCode = 3;
-					break;
-				case Role::move_result::right:
-					DirCode = 4;
-					break;
-				default:
-					break;
+			case Role::move_result::down:
+				DirCode = 2;
+				break;
+			case Role::move_result::left:
+				DirCode = 3;
+				break;
+			case Role::move_result::right:
+				DirCode = 4;
+				break;
+			default:
+				break;
 			}
 			if (moveCode != Role::move_result::fail) {
 				scene.BoardReflesh(RoleCode, roles[RoleCode - 1]->x, roles[RoleCode - 1]->y);
@@ -109,8 +107,10 @@ int main()
 		case Interface::Option::music:
 			//音乐的接口
 			//设想的是先点击环境，再弹出三个音乐的选项
+			break;
 		case Interface::Option::exit:
-			//具体的退出操作		
+			//具体的退出操作	
+			break;
 		}
 		if (logic.Examine())
 			scene.UselesStep();

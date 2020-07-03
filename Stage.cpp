@@ -1,7 +1,7 @@
 #include"Stage.h"
-#include"Role.h"
 #include<iostream>
 
+extern int LogicPanel[5][4];
 //Stage.h/cpp文件用于逻辑棋盘的初始化,以及结束函数
 /*
 State表示这一格属于谁:

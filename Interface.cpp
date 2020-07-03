@@ -135,7 +135,6 @@ int Interface::Select()
 	MOUSEMSG ms = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
 	MOUSEMSG ms2 = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
 	int levelselect;
-	int modeselect;
 	while (true)
 	{
 		ms = GetMouseMsg();
@@ -289,7 +288,7 @@ Interface::Option Interface::Click()
 				!movearg;
 				return Option::move;
 			}
-			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && movearg == 1)
+			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && movearg)
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
@@ -322,7 +321,7 @@ void Interface::stepwrite(int snum)
 	settextcolor(WHITE);
 	settextstyle(10, 8, _T("宋体"));
 	char a[3];
-	sprintf(a, "%d", snum);
+	sprintf_s(a, "%d", snum);
 	outtextxy(700, 240, a);
 }
 //更新现在的生命值
@@ -334,7 +333,7 @@ void Interface::lifewrite(int lnum)
 	settextcolor(WHITE);
 	settextstyle(10, 8, _T("宋体"));
 	char b[3];
-	sprintf(b, "%d", lnum);
+	sprintf_s(b, "%d", lnum);
 	outtextxy(700, 300, b);
 }
 //使用帮助功能

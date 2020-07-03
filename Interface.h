@@ -5,7 +5,7 @@ class Interface
 public:
 	static enum Music { bgm, yell, mute };//三个音乐选项，未实现
 	static enum Option { move, help, revoke, music, restart, exit, direction };
-	bool movearg = 0;
+	bool movearg = false;
 	point MovePoint;//移动点的逻辑坐标
 	void Begin();
 	int Select();

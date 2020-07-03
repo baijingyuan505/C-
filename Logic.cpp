@@ -16,7 +16,7 @@ Logic::Logic(int stage)
 	}
 }
 
-inline void Logic::Load(std::vector<optimum::name>& nametable, std::vector<optimum::dir>& dirtable)
+inline void Logic::Load(std::vector<name>& nametable, std::vector<dir>& dirtable)
 {
 	int RoleCode;//棋子的代号0-9
 	int DirCode;//移动方向的代号1,-1,2,-2
