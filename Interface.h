@@ -11,6 +11,7 @@ public:
 	int Select();
 	void GameInit(int num,int (&InitLocate)[10][2]);
 	void BoardReflesh(int state,int x,int y);
+	void BoardReflesh(int state, int DirCode);
 	Option Click();
 	void stepwrite(int snum);
 	void lifewrite(int lnum);
@@ -20,5 +21,6 @@ public:
 private:
 	int RefleshLocate[10][2] = { 0 };
 	void TipReflesh();
+	void DrawBoard();
 };
 

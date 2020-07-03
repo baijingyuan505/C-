@@ -3,81 +3,81 @@
 optimum::optimum(int n) {
 	nametable.clear();
 	dirtable.clear();
-	//记录了最优解操作的表，格式为每20个操作单字换一行，即一行20个元素
-	name Stage1_Name[48] = {
-		name::关,name::赵,name::黄,name::勇,name::勇,name::卒,name::卒,name::曹,name::丁,name::丁,name::马,name::张,name::关,name::赵,name::赵,name::黄,name::勇,name::卒,name::曹,name::丁,
-		name::丁,name::兵,name::兵,name::马,name::张,name::关,name::赵,name::黄,name::黄,name::勇,name::卒,name::曹,name::张,name::张,name::关,name::赵,name::黄,name::勇,name::勇,name::卒,
-		name::卒,name::曹,name::赵,name::赵,name::黄,name::卒,name::卒,name::曹 };
-	dir Stage1_Dir[48] = {
-		dir::左,dir::下,dir::下,dir::下,dir::左,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,
-		dir::右,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::左,dir::左,dir::左,
-		dir::左,dir::下,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左 };
+	//记录了最优解操作的表，格式为每20个数换一行，即一行20个元素
+	int Stage1_Name[48] = {
+		2,3,5,10,10,8,8,1,9,9,4,6,2,3,3,5,10,8,1,9,
+		9,7,7,4,6,2,3,5,5,10,8,1,6,6,2,3,5,10,10,8,
+		8,1,3,3,5,8,8,1 };
+	int Stage1_Dir[48] = {
+		2,1,1,1,2,1,1,3,3,0,0,0,0,2,2,1,1,1,1,3,
+		3,3,3,0,0,0,0,2,2,1,1,1,3,3,0,0,0,2,2,2,
+		2,1,3,3,0,0,2,2 };
 	//《过五关》37步
 
-	name Stage2_Name[62] = {
-		name::赵,name::黄,name::马,name::丁,name::丁,name::兵,name::兵,name::曹,name::勇,name::勇,name::关,name::丁,name::丁,name::兵,name::兵,name::曹,name::勇,name::勇,name::卒,name::卒,
-		name::关,name::兵,name::兵,name::曹,name::黄,name::黄,name::马,name::张,name::赵,name::丁,name::丁,name::兵,name::兵,name::曹,name::黄,name::马,name::马,name::张,name::赵,name::兵,
-		name::兵,name::曹,name::关,name::卒,name::卒,name::勇,name::勇,name::马,name::黄,name::张,name::赵,name::兵,name::兵,name::丁,name::丁,name::曹,name::张,name::张,name::赵,name::丁,
-		name::丁,name::曹 };
-	dir Stage2_Dir[62] = {
-		dir::右,dir::下,dir::下,dir::下,dir::右,dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,dir::右,dir::右,dir::右,dir::右,dir::下,dir::左,dir::左,dir::左,dir::左,
-		dir::上,dir::上,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左,dir::左,
-		dir::下,dir::下,dir::下,dir::右,dir::右,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::左,dir::左,dir::下,dir::右,dir::上,dir::上,dir::上,
-		dir::左,dir::左 };
+	int Stage2_Name[62] = {
+		3,5,4,9,9,7,7,1,10,10,2,9,9,7,7,1,10,10,8,8,
+		2,7,7,1,5,5,4,6,3,9,9,7,7,1,5,4,4,6,3,7,
+		7,1,2,8,8,10,10,4,5,6,3,7,7,9,9,1,6,6,3,9,
+		9,1 };
+	int Stage2_Dir[62] = {
+		3,1,1,1,3,1,1,2,2,0,0,3,3,3,3,1,2,2,2,2,
+		0,0,3,3,0,0,2,2,2,1,1,1,1,3,3,0,0,2,2,2,
+		1,1,1,3,3,3,3,0,0,0,0,2,2,2,2,1,3,0,0,0,
+		2,2 };
 	//《层层设防》44步
 
-	name Stage3_Name[90] = {
-		name::兵,name::丁,name::关,name::勇,name::卒,name::赵,name::赵,name::曹,name::张,name::兵,name::兵,name::丁,name::丁,name::黄,name::张,name::张,name::曹,name::赵,name::赵,name::马,
-		name::勇,name::勇,name::卒,name::卒,name::关,name::关,name::黄,name::张,name::勇,name::勇,name::曹,name::兵,name::兵,name::丁,name::丁,name::勇,name::勇,name::黄,name::黄,name::张,
-		name::卒,name::卒,name::曹,name::兵,name::兵,name::赵,name::马,name::马,name::曹,name::兵,name::兵,name::丁,name::勇,name::黄,name::张,name::卒,name::兵,name::曹,name::马,name::马,
-		name::赵,name::勇,name::丁,name::黄,name::张,name::张,name::曹,name::丁,name::丁,name::勇,name::勇,name::赵,name::马,name::马,name::丁,name::丁,name::关,name::兵,name::兵,name::卒,
-		name::卒,name::曹,name::勇,name::勇,name::丁,name::丁,name::关,name::卒,name::卒,name::曹 };
-	dir Stage3_Dir[90] = {
-		dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::下,dir::下,dir::左,dir::上,dir::上,dir::右,
-		dir::上,dir::上,dir::左,dir::上,dir::右,dir::右,dir::下,dir::下,dir::左,dir::左,dir::下,dir::右,dir::右,dir::上,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,
-		dir::左,dir::下,dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,dir::右,dir::下,dir::下,dir::下,dir::右,dir::上,dir::上,dir::左,dir::下,dir::左,dir::下,dir::下,
-		dir::右,dir::右,dir::右,dir::右,dir::上,dir::上,dir::左,dir::下,dir::下,dir::下,dir::下,dir::左,dir::上,dir::上,dir::右,dir::上,dir::上,dir::右,dir::右,dir::右,
-		dir::右,dir::下,dir::左,dir::左,dir::左,dir::左,dir::上,dir::上,dir::右,dir::右 };
+	int Stage3_Name[90] = {
+		7,9,2,10,8,3,3,1,6,7,7,9,9,5,6,6,1,3,3,4,
+		10,10,8,8,2,2,5,6,10,10,1,7,7,9,9,10,10,5,5,6,
+		8,8,1,7,7,3,4,4,1,7,7,9,10,5,6,8,7,1,4,4,
+		3,10,9,5,6,6,1,9,9,10,10,3,4,4,9,9,2,7,7,8,
+		8,1,10,10,9,9,2,8,8,1 };
+	int Stage3_Dir[90] = {
+		0,0,2,2,1,1,1,3,3,0,0,0,0,2,1,1,2,0,0,3,
+		0,0,2,0,3,3,1,1,2,2,1,3,3,0,3,0,0,0,0,2,
+		2,1,1,1,2,2,0,0,3,1,1,1,3,0,0,2,1,2,1,1,
+		3,3,3,3,0,0,2,1,1,1,1,2,0,0,3,0,0,3,3,3,
+		3,1,2,2,2,2,0,0,3,3 };
 	//《左右布兵》62步
 
-	name Stage4_Name[125] = {
-		name::卒,name::勇,name::黄,name::黄,name::曹,name::马,name::马,name::丁,name::丁,name::关,name::张,name::张,name::黄,name::卒,name::勇,name::丁,name::兵,name::关,name::赵,name::赵,
-		name::马,name::曹,name::卒,name::卒,name::丁,name::丁,name::兵,name::兵,name::关,name::勇,name::勇,name::张,name::赵,name::关,name::兵,name::兵,name::关,name::关,name::赵,name::张,
-		name::兵,name::勇,name::赵,name::马,name::马,name::曹,name::丁,name::丁,name::关,name::黄,name::勇,name::兵,name::张,name::张,name::马,name::赵,name::曹,name::丁,name::丁,name::卒,
-		name::卒,name::关,name::勇,name::勇,name::曹,name::马,name::马,name::赵,name::兵,name::兵,name::曹,name::卒,name::卒,name::丁,name::丁,name::关,name::关,name::勇,name::勇,name::黄,
-		name::黄,name::曹,name::丁,name::丁,name::马,name::赵,name::赵,name::丁,name::丁,name::马,name::卒,name::勇,name::关,name::赵,name::马,name::曹,name::黄,name::黄,name::关,name::勇,
-		name::卒,name::赵,name::马,name::马,name::曹,name::卒,name::勇,name::黄,name::张,name::兵,name::兵,name::丁,name::丁,name::曹,name::马,name::赵,name::关,name::关,name::勇,name::卒,
-		name::黄,name::张,name::丁,name::丁,name::曹 };
-	dir Stage4_Dir[125] = {
-		dir::左,dir::左,dir::下,dir::下,dir::右,dir::上,dir::上,dir::右,dir::上,dir::上,dir::左,dir::左,dir::下,dir::右,dir::下,dir::右,dir::右,dir::右,dir::下,dir::下,
-		dir::左,dir::左,dir::上,dir::上,dir::右,dir::上,dir::右,dir::右,dir::上,dir::上,dir::左,dir::右,dir::下,dir::左,dir::左,dir::下,dir::右,dir::右,dir::上,dir::左,
-		dir::下,dir::右,dir::右,dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,dir::上,dir::上,dir::上,dir::右,dir::右,dir::下,dir::下,dir::下,dir::左,dir::左,dir::左,
-		dir::左,dir::上,dir::上,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::右,dir::右,dir::下,dir::左,dir::左,dir::上,dir::左,dir::上,
-		dir::上,dir::右,dir::下,dir::下,dir::右,dir::上,dir::上,dir::左,dir::下,dir::下,dir::左,dir::下,dir::右,dir::上,dir::左,dir::左,dir::下,dir::下,dir::右,dir::右,
-		dir::右,dir::右,dir::上,dir::上,dir::左,dir::下,dir::左,dir::上,dir::上,dir::右,dir::右,dir::右,dir::右,dir::下,dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,
-		dir::上,dir::上,dir::上,dir::右,dir::右 };
+	int Stage4_Name[125] = {
+		8,10,5,5,1,4,4,9,9,2,6,6,5,8,10,9,7,2,3,3,
+		4,1,8,8,9,9,7,7,2,10,10,6,3,2,7,7,2,2,3,6,
+		7,10,3,4,4,1,9,9,2,5,10,7,6,6,4,3,1,9,9,8,
+		8,2,10,10,1,4,4,3,7,7,1,8,8,9,9,2,2,10,10,5,
+		5,1,9,9,4,3,3,9,9,4,8,10,2,3,4,1,5,5,2,10,
+		8,3,4,4,1,8,10,5,6,7,7,9,9,1,4,3,2,2,10,8,
+		5,6,9,9,1 };
+	int Stage4_Dir[125] = {
+		2,2,1,1,3,0,0,3,0,0,2,2,1,3,1,3,3,3,1,1,
+		2,2,0,0,3,0,3,3,0,0,2,3,1,2,2,1,3,3,0,2,
+		1,3,3,1,1,2,2,0,0,0,0,0,3,3,1,1,1,2,2,2,
+		2,0,0,3,3,0,0,2,2,1,1,1,3,3,1,2,2,0,2,0,
+		0,3,1,1,3,0,0,2,1,1,2,1,3,0,2,2,1,1,3,3,
+		3,3,0,0,2,1,2,0,0,3,3,3,3,1,1,1,2,2,0,0,
+		0,0,0,3,3 };
 	//《插翅难飞》90步
 
-	name Stage5_Name[178] = {
-		name::关,name::卒,name::卒,name::勇,name::勇,name::关,name::卒,name::勇,name::黄,name::马,name::马,name::兵,name::勇,name::丁,name::卒,name::关,name::关,name::黄,name::卒,name::勇,
-		name::马,name::卒,name::卒,name::黄,name::关,name::关,name::丁,name::丁,name::兵,name::兵,name::张,name::张,name::曹,name::赵,name::卒,name::马,name::勇,name::丁,name::兵,name::张,
-		name::勇,name::马,name::卒,name::赵,name::曹,name::勇,name::勇,name::张,name::张,name::丁,name::兵,name::黄,name::关,name::卒,name::卒,name::赵,name::赵,name::曹,name::勇,name::张,
-		name::丁,name::兵,name::关,name::卒,name::赵,name::马,name::丁,name::丁,name::马,name::赵,name::卒,name::关,name::兵,name::张,name::张,name::勇,name::丁,name::曹,name::赵,name::赵,
-		name::卒,name::卒,name::关,name::兵,name::张,name::马,name::卒,name::赵,name::赵,name::曹,name::丁,name::丁,name::马,name::张,name::兵,name::关,name::赵,name::卒,name::曹,name::丁,
-		name::丁,name::勇,name::勇,name::马,name::卒,name::卒,name::曹,name::丁,name::丁,name::勇,name::勇,name::马,name::马,name::卒,name::卒,name::张,name::张,name::兵,name::兵,name::黄,
-		name::关,name::赵,name::丁,name::丁,name::勇,name::勇,name::曹,name::兵,name::张,name::卒,name::马,name::马,name::曹,name::赵,name::勇,name::丁,name::关,name::关,name::黄,name::张,
-		name::卒,name::兵,name::赵,name::勇,name::勇,name::曹,name::马,name::马,name::卒,name::兵,name::张,name::赵,name::黄,name::关,name::关,name::勇,name::丁,name::曹,name::马,name::兵,
-		name::兵,name::卒,name::卒,name::张,name::赵,name::黄,name::关,name::勇,name::勇,name::丁,name::丁,name::曹,name::黄,name::黄,name::关,name::丁,name::丁,name::曹 };
-	dir Stage5_Dir[178] = {
-		dir::下,dir::左,dir::左,dir::上,dir::左,dir::右,dir::下,dir::左,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::右,dir::下,
-		dir::左,dir::右,dir::上,dir::上,dir::右,dir::右,dir::下,dir::右,dir::下,dir::下,dir::下,dir::下,dir::左,dir::左,dir::上,dir::右,dir::上,dir::上,dir::右,dir::下,
-		dir::左,dir::左,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,dir::右,dir::上,
-		dir::上,dir::上,dir::左,dir::左,dir::下,dir::右,dir::右,dir::上,dir::左,dir::上,dir::右,dir::右,dir::下,dir::下,dir::下,dir::左,dir::左,dir::左,dir::上,dir::上,
-		dir::上,dir::上,dir::右,dir::右,dir::下,dir::左,dir::左,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::左,dir::下,dir::右,
-		dir::右,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::右,dir::下,dir::右,dir::右,dir::上,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,
-		dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,dir::右,dir::下,dir::下,dir::左,dir::左,dir::上,dir::上,dir::上,dir::上,dir::右,dir::右,dir::下,dir::下,
-		dir::左,dir::上,dir::左,dir::左,dir::下,dir::下,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::下,dir::下,dir::下,dir::下,dir::右,
-		dir::右,dir::右,dir::右,dir::上,dir::上,dir::上,dir::上,dir::左,dir::左,dir::左,dir::左,dir::下,dir::右,dir::右,dir::上,dir::上,dir::左,dir::左 };
+	int Stage5_Name[178] = {
+		2,8,8,10,10,2,8,10,5,4,4,7,10,9,8,2,2,5,8,10,
+		4,8,8,5,2,2,9,9,7,7,6,6,1,3,8,4,10,9,7,6,
+		10,4,8,3,1,10,10,6,6,9,7,5,2,8,8,3,3,1,10,6,
+		9,7,2,8,3,4,9,9,4,3,8,2,7,6,6,10,9,1,3,3,
+		8,8,2,7,6,4,8,3,3,1,9,9,4,6,7,2,3,8,1,9,
+		9,10,10,4,8,8,1,9,9,10,10,4,4,8,8,6,6,7,7,5,
+		2,3,9,9,10,10,1,7,6,8,4,4,1,3,10,9,2,2,5,6,
+		8,7,3,10,10,1,4,4,8,7,6,3,5,2,2,10,9,1,4,7,
+		7,8,8,6,3,5,2,10,10,9,9,1,5,5,2,9,9,1 };
+	int Stage5_Dir[178] = {
+		1,2,2,0,2,3,1,2,1,3,3,0,0,0,0,2,2,1,3,1,
+		2,3,0,0,3,3,1,3,1,1,1,1,2,2,0,3,0,0,3,1,
+		2,2,1,3,3,0,0,0,0,2,2,2,2,1,1,1,1,3,3,0,
+		0,0,2,2,1,3,3,0,2,0,3,3,1,1,1,2,2,2,0,0,
+		0,0,3,3,1,2,2,1,1,3,3,0,0,0,2,2,1,2,1,3,
+		3,3,3,0,0,2,2,1,1,3,1,3,3,0,3,0,0,0,0,2,
+		2,2,1,1,1,1,3,3,1,1,2,2,0,0,0,0,3,3,1,1,
+		2,0,2,2,1,1,3,3,0,0,0,0,0,2,2,1,1,1,1,3,
+		3,3,3,0,0,0,0,2,2,2,2,1,3,3,0,0,2,2 };
 	//《小燕出巢》131步
 
 	switch (n) {//构造函数的主体部分
@@ -117,4 +117,14 @@ optimum::optimum(int n) {
 		}
 		break;
 	}
+}
+
+int optimum::moveRole(int i)
+{
+	return nametable[i];
+}
+
+int optimum::moveDir(int i)
+{
+	return dirtable[i];
 }

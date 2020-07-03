@@ -8,10 +8,8 @@ int LogicPanel[5][4] = { 0 };
 int main()
 {
 	Role* roles[10];
-	Stage level;//
-
+	Stage level;
 	Interface scene;
-
 	Interface::Option operation;//枚举 选择的操作
 
 	int RoleCode = 0, DirCode=0;
@@ -98,11 +96,11 @@ int main()
 			break;
 		case Interface::Option::help:
 			code = logic.Help();
-			scene.Help(code);//帮助功能发现bug,等我明天修改
+			scene.Help(code);
 			break;
 		case Interface::Option::revoke:
 			if (logic.Revoke())
-				scene.Revoke();//回退功能完整
+				scene.Revoke();
 			break;
 		case Interface::Option::music:
 			//音乐的接口

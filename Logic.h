@@ -1,6 +1,8 @@
-#pragma once
+#ifndef LOGIC_H
+#define LOGIC_H
 #include <vector>
 #include "optimum.h"
+#endif
 class Logic
 {
 private:
@@ -19,7 +21,7 @@ private:
 public:
 	int Cnt = 0;//目前行走的步数
 	int score = 100;//游戏得分（生命值）
-	void Load(std::vector<name>& nametable, std::vector<dir>& dirtable);//录入最优解
+	void Load(std::vector<int>& nametable, std::vector<int>& dirtable);//录入最优解
 	void Record(int RoleCode, int DirCode);//记录玩家的移动
 	bool Examine();//检查无用功函数
 	int Help();//帮助功能

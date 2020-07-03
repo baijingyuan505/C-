@@ -190,21 +190,6 @@ void Interface::GameInit(int num, int(&InitLocate)[10][2])
 	IMAGE chart;
 	IMAGE function;
 
-	IMAGE cchess;//以下
-	IMAGE gchess;
-	IMAGE zf1chess;
-	IMAGE zf2chess;
-	IMAGE zy1chess;
-	IMAGE zy2chess;
-	IMAGE hz1chess;
-	IMAGE hz2chess;
-	IMAGE m1chess;
-	IMAGE m2chess;
-	IMAGE s1chess;
-	IMAGE s2chess;
-	IMAGE s3chess;
-	IMAGE s4chess;//至此为棋子贴图
-
 	IMAGE step;//以下
 	IMAGE life;
 	IMAGE help;
@@ -220,21 +205,6 @@ void Interface::GameInit(int num, int(&InitLocate)[10][2])
 	loadimage(&bg2, _T("D:\\cpicture\\background2.jpg"), 800, 700);
 	loadimage(&chart, _T("D:\\cpicture\\chart.png"), 400, 600);
 	loadimage(&function, _T("D:\\cpicture\\function.png"), 250, 680);
-	loadimage(&cchess, _T("D:\\cpicture\\c.png"), 200, 200);
-	//加载棋子贴图
-	loadimage(&zf1chess, _T("D:\\cpicture\\zf1.png"), 200, 100);
-	loadimage(&zf2chess, _T("D:\\cpicture\\zf2.png"), 100, 200);
-	loadimage(&zy1chess, _T("D:\\cpicture\\zy1.png"), 200, 100);
-	loadimage(&zy2chess, _T("D:\\cpicture\\zy2.png"), 100, 200);
-	loadimage(&m1chess, _T("D:\\cpicture\\m1.png"), 200, 100);
-	loadimage(&m2chess, _T("D:\\cpicture\\m2.png"), 100, 200);
-	loadimage(&hz1chess, _T("D:\\cpicture\\h1.png"), 200, 100);
-	loadimage(&hz2chess, _T("D:\\cpicture\\h2.png"), 100, 200);
-	loadimage(&gchess, _T("D:\\cpicture\\g.png"), 200, 100);
-	loadimage(&s1chess, _T("D:\\cpicture\\s1.png"), 100, 100);
-	loadimage(&s2chess, _T("D:\\cpicture\\s2.png"), 100, 100);
-	loadimage(&s3chess, _T("D:\\cpicture\\s3.png"), 100, 100);
-	loadimage(&s4chess, _T("D:\\cpicture\\s4.png"), 100, 100);
 	//加载按钮贴图
 	loadimage(&step, _T("D:\\cpicture\\stepnum.png"), 120, 40);
 	loadimage(&life, _T("D:\\cpicture\\life.png"), 120, 40);
@@ -250,17 +220,6 @@ void Interface::GameInit(int num, int(&InitLocate)[10][2])
 	putimage(0, 0, &bg2);
 	putimage(100, 20, &chart);
 	putimage(550, 5, &function);
-	//人物图案显示
-	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
-	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
-	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &m1chess);
-	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &hz1chess);
-	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &gchess);
-	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &zy1chess);
-	putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
-	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
-	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
-	putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
 	//状态栏图标显示
 	putimage(680, 220, &step);
 	putimage(680, 270, &life);
@@ -269,6 +228,8 @@ void Interface::GameInit(int num, int(&InitLocate)[10][2])
 	putimage(680, 420, &music);
 	putimage(680, 470, &restart);
 	putimage(680, 520, &exit);
+
+	DrawBoard();
 }
 //游戏中的点击操作
 Interface::Option Interface::Click()
@@ -414,6 +375,29 @@ void Interface::BoardReflesh(int state, int x, int y)
 {
 	RefleshLocate[state - 1][0] = x;
 	RefleshLocate[state - 1][1] = y;
+	DrawBoard();
+	
+}
+void Interface::BoardReflesh(int state, int DirCode)
+{
+	switch (DirCode) {
+	case 1://向上
+		RefleshLocate[state - 1][1]--;
+		break;
+	case 2://向下
+		RefleshLocate[state - 1][1]++;
+		break;
+	case 3://向左
+		RefleshLocate[state - 1][0]--;
+		break;
+	case 4:
+		RefleshLocate[state - 1][0]++;
+		break;
+	}
+	DrawBoard();
+}
+void Interface::DrawBoard()
+{
 	IMAGE chart;
 	IMAGE cchess;
 	IMAGE gchess;
