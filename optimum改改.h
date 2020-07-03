@@ -1,7 +1,7 @@
 #ifndef OPTIMUM_H
 #define OPTIMUM_H
 #include<iostream>
-#include<vector>//#include"move函数所在头文件"
+#include<vector>
 #include"Role_v1.1.h"
 #endif
 
@@ -16,12 +16,9 @@ public:
 	int step;//最优解的移动步数
 	optimum(int n);//构造函数:生成以上3个成员变量，参数为关卡序号1-5
 
-	void movebyoptimum(Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4)const;
-	//主体函数:根据预先录入的最优解移动棋子至通关（不包含对棋盘的初始化）用于实现最优解演示功能
-	//10个参数请依次传入
+	//void movebyoptimum(Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4)const;
+	//可能没用的函数
 
-	friend void movewhichwhere(name n, dir d, Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4);
-	//友元函数:通过n和d分析如何调用move函数，用于实现最优解演示、提示功能
 };
 
 optimum::optimum(int n) {
@@ -144,17 +141,18 @@ optimum::optimum(int n) {
 	}
 }
 
-void optimum::movebyoptimum(Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4)const
+/*void optimum::movebyoptimum(Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4)const
 {
 	for (int i = 0; i < step; ++i)
 	{
 		movewhichwhere(nametable[i], dirtable[i], CaoCao, GuanYu, ZhaoYun, MaChao, HuangZhong, ZhangFei, S1, S2, S3, S4);//移动一次
 		//本行留空，请补充“在图形化界面显示移动操作”的函数
 	}
-}
+}*/
 
+//movewhichwhere(route.nametable[i], route.dirtable[i], CaoCao, GuanYu, ZhaoYun, MaChao, HuangZhong, ZhangFei, S1, S2, S3, S4);//调用示例
 void movewhichwhere(optimum::name n, optimum::dir d, Role* CaoCao, Role* GuanYu, Role* ZhaoYun, Role* MaChao, Role* HuangZhong, Role* ZhangFei, Role* S1, Role* S2, Role* S3, Role* S4)
-{
+{//通过n和d分析如何调用move函数，用于实现最优解演示功能
 	switch (n)
 	{
 		int i = static_cast<int>(n);
