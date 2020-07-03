@@ -3,7 +3,7 @@ struct point { int x; int y; };
 class Interface
 {
 public:
-	static enum Mode{show,play,quit};
+	static enum Mode{ start, select, show,play,quit};
 	static enum Music { bgm, yell, mute };//三个音乐选项，未实现
 	static enum Option { move, help, revoke, music, restart, exit, direction };
 	bool movearg = false;
