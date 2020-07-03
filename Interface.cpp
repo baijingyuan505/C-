@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include <stdio.h>
+#include <iostream>
 
 #define wid 800
 #define hei 700
@@ -29,9 +30,9 @@ void Interface::Begin()
 	initgraph(wid, hei);
 	putimage(0, 0, &back_pic1);
 	putimage(250, 10, &title);
-	putimage(80, 400, &buttom_1);
-	putimage(280, 400, &buttom_2);
-	putimage(480, 400, &buttom_3);
+	putimage(80, 600, &buttom_1);
+	putimage(280, 600, &buttom_2);
+	putimage(480, 600, &buttom_3);
 
 	MOUSEMSG ms = { WM_MOUSEMOVE ,0,0,0,0,0,0,0 };
 	while (true)
@@ -182,7 +183,7 @@ Interface::Mode Interface::Choose()
 				return Mode::play;
 				break;
 			}
-		}	
+		}
 	}
 }
 //提示栏刷新函数
@@ -196,8 +197,8 @@ void Interface::TipReflesh()
 void Interface::GameInit(int num, int(&InitLocate)[10][2])
 {
 	for (int i = 0; i < 10; ++i) {
-		RefleshLocate[i][0] = InitLocate[i][0]+1;
-		RefleshLocate[i][1] = InitLocate[i][1]+1;
+		RefleshLocate[i][0] = InitLocate[i][0] + 1;
+		RefleshLocate[i][1] = InitLocate[i][1] + 1;
 	}
 	initgraph(wid, hei);
 	IMAGE bg2;//背景贴图
@@ -256,18 +257,18 @@ Interface::Option Interface::Click()
 		ms = GetMouseMsg();
 		if (ms.uMsg == WM_LBUTTONUP)
 		{
-			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620)
+			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620&&!movearg)
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
-				!movearg;
+				movearg=!movearg;
 				return Option::move;
 			}
 			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && movearg)
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
-				!movearg;
+				movearg=!movearg;
 				return Option::direction;
 			}
 			if (ms.x >= 680 && ms.x <= 800 && ms.y >= 320 && ms.y <= 360)
@@ -387,25 +388,28 @@ void Interface::Revoke()
 //棋盘贴图的刷新
 void Interface::BoardReflesh(int state, int x, int y)
 {
-	RefleshLocate[state - 1][0] = x;
-	RefleshLocate[state - 1][1] = y;
+	RefleshLocate[state - 1][0] = x+1;
+	RefleshLocate[state - 1][1] = y+1;
 	DrawBoard();
-	
 }
 void Interface::BoardReflesh(int state, int DirCode)
 {
 	switch (DirCode) {
 	case 1://向上
 		RefleshLocate[state - 1][1]--;
+		std::cout << "1";
 		break;
 	case 2://向下
 		RefleshLocate[state - 1][1]++;
+		std::cout << "2";
 		break;
 	case 3://向左
 		RefleshLocate[state - 1][0]--;
+		std::cout << "3";
 		break;
 	case 4:
 		RefleshLocate[state - 1][0]++;
+		std::cout << "4";
 		break;
 	}
 	DrawBoard();
@@ -446,11 +450,11 @@ void Interface::DrawBoard()
 
 	putimage(100, 20, &chart);
 	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
-	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
-	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &m1chess);
-	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &hz1chess);
-	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &gchess);
-	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &zy1chess);
+	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf2chess);
+	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy2chess);
+	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m2chess);
+	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz2chess);
 	putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
 	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
 	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);

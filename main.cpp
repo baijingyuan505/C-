@@ -3,6 +3,7 @@
 #include "Interface.h"
 #include "Logic.h"
 #include <Windows.h>
+#include <iostream>
 int LogicPanel[5][4] = { 0 };
 
 int main()
@@ -105,7 +106,7 @@ int main()
 				}
 				if (moveCode != Role::move_result::fail) {
 					scene.BoardReflesh(RoleCode, roles[RoleCode - 1]->x, roles[RoleCode - 1]->y);
-					logic.Record(RoleCode, DirCode);
+					//logic.Record(RoleCode, DirCode);
 				}
 				break;
 			case Interface::Option::help:
@@ -127,8 +128,8 @@ int main()
 			if (logic.Examine())
 				scene.UselesStep();
 			logic.Value();
-			scene.stepwrite(logic.Cnt);
-			scene.lifewrite(logic.score);
+			//scene.stepwrite(logic.Cnt);
+			//scene.lifewrite(logic.score);
 		}
 		break;
 	case Interface::quit:
