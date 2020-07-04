@@ -3,7 +3,7 @@ struct point { int x; int y; };
 class Interface
 {
 public:
-	static enum Mode{ start, select, show,play,quit};
+	static enum Mode { start, select, show, play, quit };
 	static enum Music { bgm, yell, mute };//三个音乐选项，未实现
 	static enum Option { move, help, revoke, music, restart, exit, direction };
 	bool movearg = false;
@@ -11,9 +11,9 @@ public:
 	void Begin();
 	int Select();
 	Mode Choose();
-	void GameInit(int num,int (&InitLocate)[10][2]);
-	void BoardReflesh(int state,int x,int y);
-	void BoardReflesh(int state, int DirCode);
+	void GameInit(int num, int(&InitLocate)[10][2]);
+	void BoardReflesh(int state, int x, int y, int num);
+	void BoardReflesh(int state, int DirCode, int num);
 	Option Click();
 	void stepwrite(int snum);
 	void lifewrite(int lnum);
@@ -23,6 +23,6 @@ public:
 private:
 	int RefleshLocate[10][2] = { 0 };
 	void TipReflesh();
-	void DrawBoard();
+	void DrawBoard(int num);
 };
 

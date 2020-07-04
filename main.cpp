@@ -31,7 +31,7 @@ int main()
 	{ {1,0,2}, {2,1,2}, {2,2,2}, {2,1,2}, {1,0,2} },
 	{ {1,2,2}, {2,0,2}, {2,1,2}, {2,3,0}, {1,2,2} } };
 	//Soldier分别为
-	int InitSoldier[4][5][3] = {
+	int InitSoldier[4][5][2] = {
 	{ {0,0}, {0,0}, {0,3}, {0,2}, {0,0} },
 	{ {3,0}, {3,0}, {3,3}, {3,2}, {3,0} },
 	{ {0,1}, {0,1}, {0,4}, {0,3}, {0,1} },
@@ -56,8 +56,17 @@ int main()
 	optimum route;//游戏的最优解
 	Logic logic;//游戏运行逻辑
 
+	roles[0] = new Boss;
+	roles[1] = new General;
+	roles[2] = new General;
+	roles[3] = new General;
+	roles[4] = new General;
+	roles[5] = new General;
+	roles[6] = new Soldier;
+	roles[7] = new Soldier;
+	roles[8] = new Soldier;
+	roles[9] = new Soldier;
 	
-
 
 	while (process!= Interface::quit) {
 		switch (process)
@@ -73,20 +82,20 @@ int main()
 			//选关之后，对Boss进行初始化
 			Initx = InitLocate[0][0] = InitBoss[stage - 1][0];
 			Inity = InitLocate[0][1] = InitBoss[stage - 1][1];
-			roles[0] = new Boss(i + 1, Initx, Inity);
+			roles[0]->Init(i + 1, Initx, Inity);
 			++i;
 			//选关之后，对General进行初始化
 			for (; i < 6; ++i) {
 				InitForm = InitGeneral[i - 1][stage - 1][0];
 				Initx = InitLocate[i][0] = InitGeneral[i - 1][stage - 1][1];
 				Inity = InitLocate[i][1] = InitGeneral[i - 1][stage - 1][2];
-				roles[i] = new General(i + 1, InitForm, Initx, Inity);
+				roles[i]->Init(i + 1, InitForm, Initx, Inity);
 			}
 			//选关之后，对Soldier进行初始化
 			for (; i < 10; ++i) {
 				Initx = InitLocate[i][0] = InitSoldier[i - 6][stage - 1][0];
 				Inity = InitLocate[i][1] = InitSoldier[i - 6][stage - 1][1];
-				roles[i] = new Soldier(i + 1, Initx, Inity);
+				roles[i]->Init(i + 1, Initx, Inity);
 			}
 			//逻辑棋盘初始化
 			level.Select(stage);
@@ -99,14 +108,14 @@ int main()
 			process = scene.Choose();
 			break;
 		case Interface::show:
-			//加载游戏界面
-			scene.GameInit(stage, InitLocate);
-			while (process == Interface::show) {
-				RoleCode = route.moveRole();
-				DirCode = route.moveDir();
-				scene.BoardReflesh(RoleCode, DirCode);
-				Sleep(1000);//待补充
-			}
+			//演示模式
+			scene.GameInit(stage, InitLocate);//加载游戏界面
+				for (int i = 0; i < route.step; ++i) {
+					scene.BoardReflesh(route.moveRole(i), route.moveDir(i)+1,stage);
+					Sleep(1000);
+					if (process != Interface::show)
+						break;
+			    }
 			break;
 		case Interface::play:
 			//加载游戏界面
@@ -144,7 +153,7 @@ int main()
 					if (moveCode != Role::move_result::fail) {
 						tempx = roles[RoleCode - 1]->returnx();
 						tempy = roles[RoleCode - 1]->returny();
-						scene.BoardReflesh(RoleCode, tempx, tempy);
+						scene.BoardReflesh(RoleCode, tempx, tempy,stage);
 						logic.Record(RoleCode, DirCode);
 					}
 					break;
@@ -178,7 +187,7 @@ int main()
 			break;
 		}
 	}
-
 	for (auto role : roles)
 		delete role;
+	
 }

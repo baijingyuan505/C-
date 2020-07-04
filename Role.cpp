@@ -1,5 +1,4 @@
 #include"Role.h"
-#include<iostream>
 
 extern int LogicPanel[5][4];
 
@@ -27,7 +26,6 @@ Role::move_result Boss::move(int State, int x1, int y1)
 			LogicPanel[y - 1][x] = State;
 			LogicPanel[y - 1][x + 1] = State;
 			y -= 1;
-			Stride += 1;
 			return move_result::up;
 
 		}
@@ -45,7 +43,6 @@ Role::move_result Boss::move(int State, int x1, int y1)
 			LogicPanel[y][x] = 0;
 			LogicPanel[y][x + 1] = 0;
 			y += 1;
-			Stride += 1;
 			return move_result::down;
 
 		}
@@ -63,7 +60,7 @@ Role::move_result Boss::move(int State, int x1, int y1)
 			LogicPanel[y][x + 2] = State;
 			LogicPanel[y + 1][x + 2] = State;
 			x += 1;
-			Stride += 1;
+			 
 			return move_result::right;
 		}
 	}
@@ -80,7 +77,7 @@ Role::move_result Boss::move(int State, int x1, int y1)
 			LogicPanel[y][x - 1] = State;
 			LogicPanel[y + 1][x - 1] = State;
 			x -= 1;
-			Stride += 1;
+			 
 			return move_result::left;
 		}
 	}
@@ -92,7 +89,6 @@ Role::move_result Boss::move(int State, int x1, int y1)
 
 Role::move_result General::move(int State, int x1, int y1)
 {
-	x = 0, y = 0;
 	switch (Form) {
 	case 1://∫·Ãı
 		if (y1 < this->y && (this->x == x1 || x1 - 1 == this->x))//up
@@ -108,7 +104,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x] = 0;
 				LogicPanel[y][x + 1] = 0;
 				y -= 1;
-				Stride += 1;
+				 
 				return move_result::up;
 			}
 		}
@@ -125,7 +121,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x] = 0;
 				LogicPanel[y][x + 1] = 0;
 				y += 1;
-				Stride += 1;
+				 
 				return move_result::down;
 			}
 		}
@@ -140,7 +136,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x + 2] = State;
 				LogicPanel[y][x] = 0;
 				x += 1;
-				Stride += 1;
+				 
 				return move_result::right;
 			}
 		}
@@ -155,7 +151,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x - 1] = State;
 				LogicPanel[y][x + 1] = 0;
 				x -= 1;
-				Stride += 1;
+				 
 				return move_result::left;
 			}
 		}
@@ -173,11 +169,10 @@ Role::move_result General::move(int State, int x1, int y1)
 			}
 			else
 			{
-				std::cout << "up";
 				LogicPanel[y - 1][x] = State;
 				LogicPanel[y + 1][x] = 0;
 				y -= 1;
-				Stride += 1;
+				 
 				return move_result::up;
 			}
 		}
@@ -192,8 +187,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y + 2][x] = State;
 				LogicPanel[y][x] = 0;
 				y += 1;
-				Stride += 1;
-				std::cout << "down";
+				 
 				return move_result::down;
 			}
 		}
@@ -210,8 +204,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x] = 0;
 				LogicPanel[y + 1][x] = 0;
 				x += 1;
-				Stride += 1;
-				std::cout << "right";
+				 
 				return move_result::right;
 			}
 		}
@@ -228,8 +221,7 @@ Role::move_result General::move(int State, int x1, int y1)
 				LogicPanel[y][x] = 0;
 				LogicPanel[y + 1][x] = 0;
 				x -= 1;
-				Stride += 1;
-				std::cout << "left";
+				 
 				return move_result::left;
 			}
 		}
@@ -260,7 +252,7 @@ Role::move_result Soldier::move(int State, int x1, int y1)
 			LogicPanel[y][x] = 0;
 			LogicPanel[y - 1][x] = State;
 			y -= 1;
-			Stride += 1;
+			 
 			return move_result::up;
 		}
 	}
@@ -275,7 +267,7 @@ Role::move_result Soldier::move(int State, int x1, int y1)
 			LogicPanel[y][x] = 0;
 			LogicPanel[y + 1][x] = State;
 			y += 1;
-			Stride += 1;
+			 
 			return move_result::down;
 		}
 	}
@@ -290,7 +282,7 @@ Role::move_result Soldier::move(int State, int x1, int y1)
 			LogicPanel[y][x] = 0;
 			LogicPanel[y][x + 1] = State;
 			x += 1;
-			Stride += 1;
+			 
 			return move_result::right;
 		}
 	}
@@ -305,7 +297,7 @@ Role::move_result Soldier::move(int State, int x1, int y1)
 			LogicPanel[y][x] = 0;
 			LogicPanel[y][x - 1] = State;
 			x -= 1;
-			Stride += 1;
+			 
 			return move_result::left;
 		}
 	}

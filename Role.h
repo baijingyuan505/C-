@@ -22,8 +22,9 @@ class Role
 public:
 	static enum move_result { fail = 0, up, down, left, right };
 	int State=0;
-	int Stride = 0;//记录各人物的步数
 	//int x, y;//人物的坐标
+	virtual void Init(int State_, int x_, int y_) {};
+	virtual void Init(int State_, int Idx, int x_, int y_) {};
 	virtual int returnx() = 0;
 	virtual int returny() = 0;
 	virtual move_result move(int, int, int) = 0;
@@ -33,9 +34,8 @@ class Boss :public Role
 {
 public:
 	int State=0;
-	int Stride = 0;
 	int x, y;//人物左上的点的坐标
-	Boss(int State_, int x_, int y_)
+	void Init(int State_, int x_, int y_)
 	{
 		State = State_;
 		x = x_;
@@ -55,10 +55,9 @@ class General:public Role
 public:
 	int State=0;
 	int Form=0;
-	int Stride = 0;
 	int x, y;//人物左边的点的坐标
 
-	General(int State_, int Idx,int x_, int y_)
+	void Init(int State_, int Idx,int x_, int y_)
 	{
 		State = State_;
 		Form = Idx;
@@ -79,9 +78,7 @@ class Soldier :public Role
 public:
 	int State=0;
 	int x, y;
-	int Stride = 0;
-	Soldier() {}
-	Soldier(int State_, int x_, int y_)
+	void Init(int State_, int x_, int y_)
 	{
 		State = State_;
 		x = x_;

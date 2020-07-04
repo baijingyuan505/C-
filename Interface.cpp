@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <sstream>
 #include <stdio.h>
-#include <iostream>
 
 #define wid 800
 #define hei 700
@@ -21,7 +20,7 @@ void Interface::Begin()
 	IMAGE buttom_r1;
 	IMAGE buttom_r2;
 	IMAGE buttom_r3;
-	loadimage(&back_pic1, _T("D:\\cpicture\\scene.jpg"), 800, 700);
+	loadimage(&back_pic1, _T("D:\\cpicture\\.jpg"), 800, 700);
 	loadimage(&title, _T("D:\\cpicture\\title.png"), 300, 150);
 	loadimage(&buttom_1, _T("D:\\cpicture\\buttom1.png"), 150, 70);
 	loadimage(&buttom_2, _T("D:\\cpicture\\buttom2.png"), 150, 70);
@@ -186,13 +185,6 @@ Interface::Mode Interface::Choose()
 		}
 	}
 }
-//提示栏刷新函数
-void Interface::TipReflesh()
-{
-	IMAGE tip;
-	loadimage(&tip, _T("D:\\cpicture\\tip.png"), 400, 170);
-	putimage(550, 10, &tip);
-}
 //初始化游戏棋盘
 void Interface::GameInit(int num, int(&InitLocate)[10][2])
 {
@@ -244,7 +236,7 @@ void Interface::GameInit(int num, int(&InitLocate)[10][2])
 	putimage(680, 470, &restart);
 	putimage(680, 520, &exit);
 
-	DrawBoard();
+	DrawBoard(num);
 }
 //游戏中的点击操作
 Interface::Option Interface::Click()
@@ -257,18 +249,18 @@ Interface::Option Interface::Click()
 		ms = GetMouseMsg();
 		if (ms.uMsg == WM_LBUTTONUP)
 		{
-			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620&&!movearg)
+			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && !movearg)
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
-				movearg=!movearg;
+				movearg = !movearg;
 				return Option::move;
 			}
 			if (ms.x >= 100 && ms.x <= 500 && ms.y >= 20 && ms.y <= 620 && movearg)
 			{
 				MovePoint.x = ms.x / 100;
 				MovePoint.y = ms.y / 100;
-				movearg=!movearg;
+				movearg = !movearg;
 				return Option::direction;
 			}
 			if (ms.x >= 680 && ms.x <= 800 && ms.y >= 320 && ms.y <= 360)
@@ -385,36 +377,39 @@ void Interface::Revoke()
 	loadimage(&ht, _T("D:\\cpicture\\ht.png"), 100, 40);
 	putimage(600, 80, &ht);
 }
-//棋盘贴图的刷新
-void Interface::BoardReflesh(int state, int x, int y)
+//提示栏刷新函数
+void Interface::TipReflesh()
 {
-	RefleshLocate[state - 1][0] = x+1;
-	RefleshLocate[state - 1][1] = y+1;
-	DrawBoard();
+	IMAGE tip;
+	loadimage(&tip, _T("D:\\cpicture\\tip.png"), 400, 170);
+	putimage(550, 10, &tip);
 }
-void Interface::BoardReflesh(int state, int DirCode)
+//棋盘贴图的刷新
+void Interface::BoardReflesh(int state, int x, int y, int num)
+{
+	RefleshLocate[state - 1][0] = x + 1;
+	RefleshLocate[state - 1][1] = y + 1;
+	DrawBoard(num);
+}
+void Interface::BoardReflesh(int state, int DirCode, int num)
 {
 	switch (DirCode) {
 	case 1://向上
 		RefleshLocate[state - 1][1]--;
-		std::cout << "1";
 		break;
 	case 2://向下
 		RefleshLocate[state - 1][1]++;
-		std::cout << "2";
 		break;
 	case 3://向左
 		RefleshLocate[state - 1][0]--;
-		std::cout << "3";
 		break;
 	case 4:
 		RefleshLocate[state - 1][0]++;
-		std::cout << "4";
 		break;
 	}
-	DrawBoard();
+	DrawBoard(num);
 }
-void Interface::DrawBoard()
+void Interface::DrawBoard(int num)
 {
 	IMAGE chart;
 	IMAGE cchess;
@@ -447,17 +442,76 @@ void Interface::DrawBoard()
 	loadimage(&s2chess, _T("D:\\cpicture\\s2.png"), 100, 100);
 	loadimage(&s3chess, _T("D:\\cpicture\\s3.png"), 100, 100);
 	loadimage(&s4chess, _T("D:\\cpicture\\s4.png"), 100, 100);
+	switch (num)
+	{
+	case 1:
+		putimage(100, 20, &chart);
+		putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+		putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
+		putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy1chess);
+		putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+		putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m1chess);
+		putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz1chess);
+		putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+		putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+		putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+		putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+		break;
 
-	putimage(100, 20, &chart);
-	putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
-	putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf2chess);
-	putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy2chess);
-	putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
-	putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m2chess);
-	putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz2chess);
-	putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
-	putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
-	putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
-	putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+	case 2:
+		putimage(100, 20, &chart);
+		putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+		putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
+		putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy1chess);
+		putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+		putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m2chess);
+		putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz2chess);
+		putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+		putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+		putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+		putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+		break;
+	case 3:
+		putimage(100, 20, &chart);
+		putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+		putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf2chess);
+		putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy2chess);
+		putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+		putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m2chess);
+		putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz2chess);
+		putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+		putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+		putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+		putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+		break;
+	case 4:
+		putimage(100, 20, &chart);
+		putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+		putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf1chess);
+		putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy2chess);
+		putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+		putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m2chess);
+		putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz2chess);
+		putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+		putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+		putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+		putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+		break;
+	case 5:
+		putimage(100, 20, &chart);
+		putimage(100 * RefleshLocate[0][0], 100 * RefleshLocate[0][1], &cchess);
+		putimage(100 * RefleshLocate[1][0], 100 * RefleshLocate[1][1], &zf2chess);
+		putimage(100 * RefleshLocate[2][0], 100 * RefleshLocate[2][1], &zy2chess);
+		putimage(100 * RefleshLocate[3][0], 100 * RefleshLocate[3][1], &gchess);
+		putimage(100 * RefleshLocate[4][0], 100 * RefleshLocate[4][1], &m1chess);
+		putimage(100 * RefleshLocate[5][0], 100 * RefleshLocate[5][1], &hz1chess);
+		putimage(100 * RefleshLocate[6][0], 100 * RefleshLocate[6][1], &s1chess);
+		putimage(100 * RefleshLocate[7][0], 100 * RefleshLocate[7][1], &s2chess);
+		putimage(100 * RefleshLocate[8][0], 100 * RefleshLocate[8][1], &s3chess);
+		putimage(100 * RefleshLocate[9][0], 100 * RefleshLocate[9][1], &s4chess);
+		break;
+	}
+
+
 
 }
